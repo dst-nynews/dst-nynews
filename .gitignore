@@ -101,15 +101,6 @@ celerybeat.pid
 # SageMath parsed files
 *.sage.py
 
-# Environments
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-
 # Spyder project settings
 .spyderproject
 .spyproject
@@ -127,3 +118,37 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# script stuff 
+node_modules/
+
+# OS generated files 
+.DS_Store
+
+# IDEs #
+# PyCharm
+.idea/
+# VS Code
+.vscode/
+
+# Images #
+# *.png
+# *.jpg
+# *.jpeg
+
+# Others #
+# *.gz
+# *PKG-INFO
+# *.csv
+# *.zip
+# data/
+# notebooks/
