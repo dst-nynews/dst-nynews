@@ -25,6 +25,8 @@ Certains dossiers ne sont pas des composants du projets et servent à ranger des
 - `data` : si on veut stocker des petits jeux de données bruts (csv, json, ...) pour tester les features qu'on développe
 - `notebooks`: pour les Jupyter Notebooks
 
+On n'est pas obligé de passer par une branche ou de faire valider nos modifications quand on travaille sur ces dossiers de développement et sur la documentation du projet.
+
 ## Pour démarrer le projet
 
 - clonez ce repo
