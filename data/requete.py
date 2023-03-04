@@ -19,7 +19,7 @@ import pandas as pd
 import json
 
 #Requete l'API avec url_api
-url_api="https://api.nytimes.com/svc/search/v2/articlesearch.json?q=election&api-key=FPi7FFInbsLWxZlVGG9AFhibkiJtXkmf"
+url_api="https://api.nytimes.com/svc/search/v2/articlesearch.json?q=election&api-key=Votre_Clé_Api"
 req = requests.get(url_api)
 
 #Mise sous format json
