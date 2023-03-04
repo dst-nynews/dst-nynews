@@ -32,6 +32,8 @@ On n'est pas obligé de passer par une branche ou de faire valider nos modificat
 - clonez ce repo
 - installez les librairies Python requises en lançant cette commande dans votre terminal:
 
-  ```pip install -r requirements-dev.txt ```
+  ```shell
+  pip install -r requirements-dev.txt 
+  ```
 
 
