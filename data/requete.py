@@ -6,6 +6,10 @@ Requirement
     requests
     pandas
     json
+    os
+    dotenv
+
+    Variable env: KEY_API_NYT = clé de l'api du NYT
 
 
 1. Requête l'api à l'aide de la requête contenue dans le lien url "url_api"
@@ -17,10 +21,15 @@ Requirement
 import requests
 import pandas as pd
 import json
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
+key_api = os.getenv("KEY_API_NYT")
+params_req = {"api-key" : key_api}
 #Requete l'API avec url_api
-url_api="https://api.nytimes.com/svc/search/v2/articlesearch.json?q=election&api-key=Votre_Clé_Api"
-req = requests.get(url_api)
+url_api="https://api.nytimes.com/svc/search/v2/articlesearch.json?q=election"
+req = requests.get(url_api, params=params_req)
 
 #Mise sous format json
 wb = req.json()
