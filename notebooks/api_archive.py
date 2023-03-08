@@ -31,7 +31,7 @@ load_dotenv()
 
 
 # Set constants
-API_KEY = os.environ["NY_API_KEY"]
+API_KEY = os.environ["KEY_API_NYT"]
 BASE_URI = "https://api.nytimes.com/"
 
         
@@ -62,7 +62,7 @@ def write_json(data: dict[str, str], year: int , month: int) -> None:
         month (int): Month of publication of articles
     """
     
-    filepath = f"../data/api_archive_{year}_{month}.json"
+    filepath = f"../data/archive_api/archive_{year}_{month}.json"
     with open(filepath, "w") as file:
         json.dump(data, file)
 
