@@ -1,7 +1,7 @@
 """
-FICHIER PERMETTANT DE JOUER AVEC LES DONNEES OBTENUES PAR LE REQUETE DU FICHIER "requete.py" et stocké dans "json_ny.json".
+FICHIER PERMETTANT DE JOUER AVEC LES DONNEES OBTENUES PAR LE REQUETE DU FICHIER "requete_articlesearch.py" et stocké dans "article_search.json".
 
-!!! Si vous n'avez pas de fichier "json_ny.json". Lancez le fichier "requete.py" pour utiliser celui-ci.
+!!! Si vous n'avez pas de fichier "article_search.json". Lancez le fichier "requete_articlesearch.py" pour utiliser celui-ci.
 
 Requirement:
     pandas
@@ -31,7 +31,7 @@ with open("article_search.json", "r") as rf:
 df = pd.DataFrame(obj_pyth)
 
 #On regarde le nom des colonnes du DataFrame (*spoiler* il y en a 3 : status, copyright, response)
-#print(df.columns)
+print(df.columns)
 
 status = df["status"]
 copyright = df['copyright']
@@ -50,11 +50,11 @@ response = df["response"]
 
 #Structure des données d'un article
 
-article1 = response["docs"][0] 
+#article1 = response["docs"][0] 
 
-contenu_article1 = [] #On récupère le nom des clé du dico pour connaitre la structure des données
-for key in article1:
-    contenu_article1.append(key)
+#contenu_article1 = [] #On récupère le nom des clé du dico pour connaitre la structure des données
+#for key in article1:
+ #   contenu_article1.append(key)
 #print(contenu_article1)
 
 

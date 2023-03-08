@@ -35,5 +35,5 @@ req = requests.get(url_api, params=params_req)
 wb = req.json()
 
 #Stockage dans un fichier "json_ny.json"
-with open("json_ny.json", "w") as f:
+with open("article_search.json", "w") as f:
     json.dump(wb,f)
