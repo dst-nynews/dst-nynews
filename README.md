@@ -12,24 +12,29 @@ Chacun des composants de l'architecture (`api`, `db`, ...) du projet a un dossie
 
 Quand on travaille dans ces dossiers:
 
-  - on ne commit pas sur la branche `main` -> on crée une branche pour développer une feature
+  - on ne commit pas sur la branche `main` 
+    - on crée une branche pour développer une feature
   - on ne fait pas d'auto-merge:
-    - on fait une pull request pour valider les modificationss avec les collègues
+    - on fait une pull request pour valider les modifications avec les collègues
     - on passe par la branche `staging` avant d'incorporer les modificationss dans la branche `main`. 
 
 ### les dossiers de développement
 
 Certains dossiers ne sont pas des composants du projets et servent à ranger des fichiers qui nous aide pour le développement du projet.
 
-- `assets` : pour les fichiers statiques qui nous servent à documenter le projet (images, pdf, ...)
-- `data` : si on veut stocker des petits jeux de données bruts (csv, json, ...) pour tester les features qu'on développe
+- `assets`: pour les fichiers statiques qui nous servent à documenter le projet (images, pdf, ...)
+- `data`: si on veut stocker des petits jeux de données bruts (csv, json, ...) pour tester les features qu'on développe
 - `notebooks`: pour les Jupyter Notebooks
+
+On n'est pas obligé de passer par une branche ou de faire valider nos modifications quand on travaille sur ces dossiers de développement et sur la documentation du projet.
 
 ## Pour démarrer le projet
 
 - clonez ce repo
 - installez les librairies Python requises en lançant cette commande dans votre terminal:
 
-  ```pip install -r requirements-dev.txt ```
+  ```shell
+  pip install -r requirements-dev.txt 
+  ```
 
 
