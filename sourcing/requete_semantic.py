@@ -31,17 +31,38 @@ key_api = os.getenv("KEY_API_NYT")
 params_req = {"api-key" : key_api, "fields" : "article_list"}
 
 
-def getConceptDes(concept):
-    conceptName=concept
+def getConcept(concept, type):
+    """
+    On utilise l'api semantic avec la méthode GET /name/{concept-type}/{specific-concept}.json
+    """
     print(concept)
-    url_base = "http://api.nytimes.com/svc/semantic/v2/concept/name/nytd_des/"
+    print(type)
+    
+    conceptName = concept
+    conceptType = type+"/"
+
+    url_base = "http://api.nytimes.com/svc/semantic/v2/concept/name/"
     url_end = ".json?"
-    url_api_concept = url_base + concept + url_end
+    url_api_concept = url_base + conceptType + conceptName + url_end
     print(url_api_concept)
     #url_api_concept = "http://api.nytimes.com/svc/semantic/v2/concept/name/nytd_des/Coronavirus (2019-nCoV).json?"
     requestConcept = requests.get(url_api_concept, params=params_req)
     return requestConcept
 
+
+def searchConcept(concept):
+    """
+    On utilise l'api semantic avec la méthode GET /search.json
+    """
+    print(concept)
+    
+    conceptName = concept
+
+    url_base = "http://api.nytimes.com/svc/semantic/v2/concept/search.json?query="
+    url_api_concept = url_base + conceptName
+    print(url_api_concept)
+    searchConcept = requests.get(url_api_concept, params=params_req)
+    return searchConcept
 
 
 def writeRawConceptToJSON(requestConcept, rawJsonName):
@@ -69,10 +90,10 @@ def getElementsFromConcept(rawJSONConcept):
      -article_list:
         -body
         -concepts:
-            -nydt_des[]
-            -nydt_geo[]
-            -nydt_org[]
-            -nydt_per[]
+            -nytd_des[]
+            -nytd_geo[]
+            -nytd_org[]
+            -nytd_per[]
         -date
         -title
         -type_of_material
@@ -121,21 +142,44 @@ def writeCleanConceptToJSON(cleanConcept, jsonName):
 
 
 
-def descriptorConceptToCleanJson(concept):
+def descriptorConceptToCleanJson(concept, type):
     """
     Fonction complète qui récupère le concept de type descriptor et crée et stock le JSON clean avec ce concept
     """
-    conceptString = getConceptDes(concept)
+    #conceptString = getConceptDes(concept)
+    conceptString = getConcept(concept, type)
     print(conceptString)
 
     rawJSON = writeRawConceptToJSON(conceptString, concept)
     #print(rawJSON)
-    dictConceptPropre = getElementsFromConcept(rawJSON)
-    #pprint(dictConceptPropre)
-    writeCleanConceptToJSON(dictConceptPropre, concept)
+
+    if (rawJSON['num_results'] != 0):
+        dictConceptPropre = getElementsFromConcept(rawJSON)
+        #pprint(dictConceptPropre)
+        writeCleanConceptToJSON(dictConceptPropre, concept)
+    else:
+        print("Le concept: " + concept +  " n'a pas été trouvé dans l'API du NY Times")
 
 
-concept = "Coronavirus (2019-nCoV)"
-descriptorConceptToCleanJson(concept)
-concept2 = "Baseball"
-descriptorConceptToCleanJson(concept2)
+typeDes = "nytd_des"
+typeGeo = "nytd_geo"
+typePer = "nytd_per"
+typeOrg = "nytd_org"
+
+conceptDes1 = "Coronavirus (2019-nCoV)"
+descriptorConceptToCleanJson(conceptDes1, typeDes)
+
+conceptDes2 = "Baseball"
+descriptorConceptToCleanJson(conceptDes2, typeDes)
+
+conceptGeo = "Acapulco (Mexico)"
+descriptorConceptToCleanJson(conceptGeo, typeGeo)
+
+conceptPer = "Abbas, Mahmoud"
+descriptorConceptToCleanJson(conceptPer, typePer)
+
+conceptOrg = "Chicago White Sox"
+descriptorConceptToCleanJson(conceptOrg, typeOrg)
+
+conceptInexistant = "Baskurt, Can"
+descriptorConceptToCleanJson(conceptInexistant, typePer)
