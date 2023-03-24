@@ -22,6 +22,7 @@ import requests
 import pandas as pd
 import json
 import os
+import time
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -37,47 +38,62 @@ def get_articles(concept,filter="",page=0):
         page_api = "&page=" + str(page)
         url_api = url_api + filter_api + page_api
         req = requests.get(url_api,  params=params_req)
-        print(f'Url utilisée :' + url_api)
+        print(f'Url :' + url_api)
 
     else:
         req = requests.get(url_api,  params=params_req)
-        print(f'Url utilisée :' + url_api)
+        print(f'Url :' + url_api)
     
     wb = req.json()
 
     return wb
 
 
-def stockage_fichier(wb,fichier_name,page_number):
-    with open("../data/raw_data/"+fichier_name+ "_Page_" + str(page_number)+".json", "w") as f:
+def to_raw_json(wb,file_name,page_number):
+    with open("../data/raw_data/"+file_name+ "_Page_" + str(page_number)+".json", "w") as f:
         json.dump(wb,f)
 
 
-def requete(concept,filter,fichier_name):
+def request(concept,filter,file_name):
     req_dico = get_articles(concept,filter)
-    hits = req_dico["response"]["meta"]["hits"]
+
+    try:
+        hits = req_dico["response"]["meta"]["hits"]
+
+    except KeyError:
+        return print(f"Request failed. Please try another concept or filter")
+        
+    
     nbr_pages = hits//10
     page = 0
-    stockage_fichier(req_dico,fichier_name,page)
+    to_raw_json(req_dico,file_name,page)
 
     if nbr_pages >100:
-        print(f'L\'API ne propose que les 100 premières pages, or votre recherche comporte {nbr_pages} pages. Si vous souhaitez récupérer les données des pages 101 à {nbr_pages}, il vous faut mieux préciser votre recherche')
+        print(f'N° of pages :{nbr_pages}. API limited to 100 pages.')
 
-    print(page)
 
-    for i in range (1, nbr_pages +1):
-        if i < 10 and i < nbr_pages+1:
-            page = page + 1
-            print(page)
-            req_dico = get_articles(concept,filtre,page)
-            stockage_fichier(req_dico,fichier_name,page)
-            i+=1
+    else:
+        print(page)
+
+        for i in range (1, nbr_pages +1):
+            if i < 100 and i < nbr_pages+1:
+                page = page + 1
+                print(page)
+                req_dico = get_articles(concept,filter,page)
+                to_raw_json(req_dico,fichier_name,page)
+                time.sleep(11)
+                i+=1
     
-    print("données récupées")
+        print("done")
 
 
 # TEST
-concept = "covid"
-fichier_name = "covid20192023"
-filtre = "pub_year:2019 OR 2020 OR 2021 OR 2022 OR 2023"
-requete(concept,filtre,fichier_name)
+daterange = pd.date_range(start="2019,31,12", end="2023,07,02", freq="m")
+
+for i in daterange:
+    date= i.strftime("%Y-%m-%d")
+    concept = "covid"
+    fichier_name = f"Covid{date}"
+    filtre = f"pub_date:({date})"
+    request(concept,filtre,fichier_name)
+    time.sleep(5)
