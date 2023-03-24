@@ -19,6 +19,7 @@ from typing import Dict, Optional
 from urllib.parse import urljoin
 
 import requests
+
 # Fetch environment variables
 from dotenv import load_dotenv
 
@@ -54,8 +55,8 @@ class ApiMostPopular:
         params = {"api-key": self.KEY_API}
 
         response = requests.get(url, params=params)
-
         # print(response.status_code)
+
         return response.json()
 
     def save_data(self, data: Dict[str, str], endpoint: str, period: int) -> None:
@@ -81,11 +82,8 @@ class ApiMostPopular:
 
 if __name__ == "__main__":
     # Fetch articles (params: endpoint, period, repo_path).
-    import sys
 
-    # print(f"Name of the script : {sys.argv[0]=}")
-    # print(f"Arguments of the script : {sys.argv[1:]=}")
-    # print(f"Number of Arguments of the script : {len(sys.argv)=}")
+    import sys
 
     endpoint = sys.argv[1]
     period = int(sys.argv[2])

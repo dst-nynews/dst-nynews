@@ -15,6 +15,7 @@ from typing import Dict, Optional
 from urllib.parse import urljoin
 
 import requests
+
 # Fetch environment variables
 from dotenv import load_dotenv
 
@@ -49,8 +50,8 @@ class ApiArchive:
         params = {"api-key": self.KEY_API}
 
         response = requests.get(url, params=params)
-
         # print(response.status_code)
+
         return response.json()
 
     def save_data(self, data: Dict[str, str], year: int, month: int) -> None:
@@ -74,11 +75,8 @@ class ApiArchive:
 
 if __name__ == "__main__":
     # Fetch articles (params: year, month, repo_path).
-    import sys
 
-    # print(f"Name of the script : {sys.argv[0]=}")
-    # print(f"Arguments of the script : {sys.argv[1:]=}")
-    # print(f"Number of Arguments of the script : {len(sys.argv)=}")
+    import sys
 
     year = int(sys.argv[1])
     month = int(sys.argv[2])
