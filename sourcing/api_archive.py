@@ -1,88 +1,96 @@
-"""Get data on all NY Times articles published at a specific month.   
+"""Get data on all NY Times articles published at a specific month.
 
-Fetch data by making a `GET` request to the Archive API, 
-and store the response as a JSON file in the folder `data/`.  
-It needs an API key, the year, and the month of the targeted data.
+Fetch data by making a `GET` request to the Archive API,
+and store the response as a JSON file in a folder.
 
-Typical usage example:
-
-    # API call
-    year = 2010
-    month = 10
-    query = get_archive(year, month)
-
-    # Save result as a JSON
-    file_name = f"data_api_archive_{year}_{month}"
-    write_json(query, year, month)
-
-    # Display the quantity of data collected 
-    hits = query["response"]["meta"]["hits"]  
-    print(f"- {hits} articles récupérés pour {month}-{year}")
+It needs:
+    - API key,
+    - the year and the month of the targeted data,
+    - the path to a storage folder (optional).
 """
 
-import os
 import json
+import os
+from typing import Dict, Optional
 from urllib.parse import urljoin
-import requests
 
-# Fetch environment variables 
+import requests
+# Fetch environment variables
 from dotenv import load_dotenv
+
 load_dotenv()
 
 
-# Set constants
-API_KEY = os.environ["KEY_API_NYT"]
-BASE_URI = "https://api.nytimes.com/"
+class ApiArchive:
+    def __init__(self, repo_path: Optional[str] = None) -> None:
+        """Instanciate a connection to fetch data from an API of the NY Times.
 
-        
-def get_archive(year: int , month: int) -> dict[str, str]:
-    """GET request to the Archive API of the NY Times
+        Args:
+            repo_path (Optional[str], optional): Path to storage directory.
+        """
 
-    Args:
-        year (int): Year of publication of articles
-        month (int): Month of publication of articles
+        self.KEY_API = os.environ["KEY_API_NYT"]
+        self.BASE_URI = "https://api.nytimes.com/"
+        self.repo_path = repo_path
 
-    Returns:
-        dict[str, str]: Response as a JSON
-    """
-    
-    url_path = f"/svc/archive/v1/{year}/{month}.json"
-    url = urljoin(BASE_URI, url_path)
-    params = {"api-key": API_KEY}
-    
-    return requests.get(url, params=params).json()
+    def get_data(self, year: int, month: int) -> Dict[str, str]:
+        """GET request to the API.
+
+        Args:
+            year (int): Year of publication of articles.
+            month (int): Month of publication of articles.
+
+        Returns:
+            dict[str, str]: Response as a JSON.
+        """
+
+        url_path = f"/svc/archive/v1/{year}/{month}.json"
+        url = urljoin(self.BASE_URI, url_path)
+        params = {"api-key": self.KEY_API}
+
+        response = requests.get(url, params=params)
+
+        # print(response.status_code)
+        return response.json()
+
+    def save_data(self, data: Dict[str, str], year: int, month: int) -> None:
+        """Save response in a JSON file.
+
+        Args:
+            data (Dict[str, str]): Response as a JSON.
+            year (int): Year of publication of articles.
+            month (int): Month of publication of articles.
+        """
+
+        filename = f"archive_{year}_{month}.json"
+        if self.repo_path:
+            filepath = self.repo_path + filename
+        else:
+            filepath = f"../data/raw_data/{filename}"
+
+        with open(filepath, "w") as file:
+            json.dump(data, file)
 
 
-def write_json(data: dict[str, str], year: int , month: int) -> None:
-    """Save response in a JSON file
+if __name__ == "__main__":
+    # Fetch articles (params: year, month, repo_path).
+    import sys
 
-    Args:
-        data (dict[str, str]): Response as a JSON
-        year (int): Year of publication of articles
-        month (int): Month of publication of articles
-    """
-    
-    filepath = f"../data/raw_data/archive_api/archive_{year}_{month}.json"
-    with open(filepath, "w") as file:
-        json.dump(data, file)
+    # print(f"Name of the script : {sys.argv[0]=}")
+    # print(f"Arguments of the script : {sys.argv[1:]=}")
+    # print(f"Number of Arguments of the script : {len(sys.argv)=}")
 
+    year = int(sys.argv[1])
+    month = int(sys.argv[2])
 
-def main():
-    """Ask user for a year and a month to fetch articles for this period."""
-    
-    year = input("Année?\n> ")
-    month = input("Mois?\n> ")
-    query = get_archive(year, month)
+    try:
+        api_archive = ApiArchive(repo_path=sys.argv[3])
+    except IndexError:
+        api_archive = ApiArchive()
+
+    query = api_archive.get_data(year, month)
 
     if query:
-        write_json(query, year, month)
-        
-        hits = query["response"]["meta"]["hits"]  
-        print(f"\nC'est dans la boite! \n{hits} articles récupérés pour {month}-{year}. \n")
-        
-
-if __name__ == '__main__':
-    try:
-        main()
-    except KeyboardInterrupt:
-        print('\nAurevoir!')
+        api_archive.save_data(query, year, month)
+        hits = query["response"]["meta"]["hits"]
+        print(f"\n{hits} articles récupérés pour {month}-{year}. \n")

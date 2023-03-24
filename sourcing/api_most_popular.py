@@ -1,90 +1,102 @@
 """Get the 20 most popular articles of the NY Times.
 
 Fetch data by making a `GET` request to an endpont of the Most Popular API,
-and store the response as a JSON file in a subfolder of `data/`.
+and store the response as a JSON file in a folder.
 
-It needs an:
-    - API key,
-    - the endpoint (`emailed`, `shared`, `viewed`),
-    - and the period of days (`1`, `7`, `30`)
+It needs:
+    - an API key,
+    - the endpoint to call in ["emailed", "shared", "viewed"],
+    - the period of days in [1, 7, 30],
+    - the path to a storage folder (optional).
 
-The endpoint gives the metric on which is measured the popularity of articles
+The endpoint gives the metric on which is measured the popularity of articles.
 """
-
 
 import json
 import os
 from datetime import date
+from typing import Dict, Optional
 from urllib.parse import urljoin
 
 import requests
-
 # Fetch environment variables
 from dotenv import load_dotenv
 
 load_dotenv()
 
 
-# Set constants
-API_KEY = os.environ["KEY_API_NYT"]
-BASE_URI = "https://api.nytimes.com/"
+class ApiMostPopular:
+    def __init__(self, repo_path: Optional[str] = None) -> None:
+        """Instanciate a connection to fetch data from an API of the NY Times.
 
+        Args:
+            repo_path (Optional[str], optional): Path to storage directory.
+        """
 
-def get_most_popular(endpoint="emailed", period=1):
-    """GET request to an endpoint of the `Most Popular` API of the NY Times
+        self.KEY_API = os.environ["KEY_API_NYT"]
+        self.BASE_URI = "https://api.nytimes.com/"
+        self.repo_path = repo_path
 
-    Args:
-        endpoint (str): the endpoint to call (`emailed`, `shared`, `viewed`).
-                        Defaults to "emailed".
-        period (int): the period of days (`1`, `7`, `30`). Defaults to 1.
+    def get_data(self, endpoint: str, period: int) -> Dict[str, str]:
+        """GET request to an endpoint of the API.
 
-    Returns:
-        dict[str, str]: a JSON with the content of the response from the API
-    """
+        Args:
+            endpoint (str): The endpoint to call,
+                            in ["emailed", "shared", "viewed"].
+            period (int): The period of days, in [1, 7, 30].
 
-    url_path = f"/svc/mostpopular/v2/{endpoint}/{period}.json"
-    url = urljoin(BASE_URI, url_path)
-    params = {"api-key": API_KEY}
+        Returns:
+            dict[str, str]: Response as a JSON.
+        """
 
-    response = requests.get(url, params=params)
+        url_path = f"/svc/mostpopular/v2/{endpoint}/{period}.json"
+        url = urljoin(self.BASE_URI, url_path)
+        params = {"api-key": self.KEY_API}
 
-    # print(response.status_code)
-    return response.json()
+        response = requests.get(url, params=params)
 
+        # print(response.status_code)
+        return response.json()
 
-def write_json(data, endpoint, period):
-    """Save response in a JSON file
+    def save_data(self, data: Dict[str, str], endpoint: str, period: int) -> None:
+        """Save response in a JSON file
 
-    Args:
-        data (dict[str, str]): Response as a JSON
-        endpoint (str): the endpoint to call (`emailed`, `shared`, `viewed`)
-        period (int): the period of days (`1`, `7`, `30`)
-    """
+        Args:
+            data (dict[str, str]): Response as a JSON.
+            endpoint (str): The endpoint to call,
+                            in ["emailed", "shared", "viewed"].
+            period (int): The period of days, in [1, 7, 30].
+        """
 
-    today = date.today()
-    filename = f"most_popular-{endpoint}_{period}d-{today.month}_{today.day}"
-    filepath = f"../data/raw_data/{filename}.json"
+        _today = date.today()
+        filename = f"most_popular-{endpoint}_{period}d-{_today.month}_{_today.day}.json"
+        if self.repo_path:
+            filepath = self.repo_path + filename
+        else:
+            filepath = f"../data/raw_data/{filename}"
 
-    with open(filepath, "w") as file:
-        json.dump(data, file)
-
-
-def main():
-    """
-    Ask user for an endpoint and a period,
-    to fetch most popular articles for this period.
-    """
-
-    endpoint = input("Mesure de popularité? (emailed, shared, viewed)\n> ")
-    period = input("Période? (1, 7, 30)\n> ")
-
-    query = get_most_popular(endpoint, period)
-    if query:
-        write_json(query, endpoint, period)
+        with open(filepath, "w") as file:
+            json.dump(data, file)
 
 
 if __name__ == "__main__":
+    # Fetch articles (params: endpoint, period, repo_path).
+    import sys
+
+    # print(f"Name of the script : {sys.argv[0]=}")
+    # print(f"Arguments of the script : {sys.argv[1:]=}")
+    # print(f"Number of Arguments of the script : {len(sys.argv)=}")
+
+    endpoint = sys.argv[1]
+    period = int(sys.argv[2])
+
     try:
-        main()
-    except KeyboardInterrupt:
-        print("\nAurevoir!")
+        api_most_popular = ApiMostPopular(repo_path=sys.argv[3])
+    except IndexError:
+        api_most_popular = ApiMostPopular()
+
+    query = api_most_popular.get_data(endpoint, period)
+
+    if query:
+        api_most_popular.save_data(query, endpoint, period)
+        print("\nArticles récupérés.\n")
