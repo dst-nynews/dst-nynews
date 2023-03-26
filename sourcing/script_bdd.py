@@ -18,11 +18,6 @@ def import_json(file_name):
         file_json = json.load(file)
     return file_json
 
-#traitement fichier json
-def json_clean(file_json):
-    json_cleaned = file_json["response"]["docs"]
-    return json_cleaned
-
 # insertion dans la bdd
 def insert_mongoDB(json_cleaned):
     if isinstance(json_cleaned, list):
