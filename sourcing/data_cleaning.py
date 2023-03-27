@@ -5,23 +5,31 @@ Ces .json clean pourront ensuite être intégrés à la BDD grâce à "script_bd
 
 """
 import json
+import os
 
 
 # récupération fichiers json
-def import_json(file_name):
-    with open(file_name, "r") as file:
+def import_json(file_path):
+    with open(file_path, "r") as file:
         file_json = json.load(file)
     return file_json
 
+#récupération du nom
+def file_name(file_path):
+    name = os.path.basename(file_path)
+    return name
 
-#traitement fichier json
+
+
+
+
+# clean des données
 def json_clean(file_json):
     json_first_step = file_json["response"]["docs"]
     if json_first_step == []:
         return print("Fichier vide")
     else :
         list_articles_cleaned = []
-        json_cleaned = {}
         for i in json_first_step:
             article={}
             article["abstract"] = i.get("abstract")
@@ -41,34 +49,21 @@ def json_clean(file_json):
             article["word_count"] = i.get("word_count")
             article["uri"] = i.get("uri")
 
-
-            
-
             list_articles_cleaned.append(article)
-        json_cleaned["articles"] = list_articles_cleaned
 
-        return json_cleaned
+        return list_articles_cleaned
     
 
-    
-def to_clean_json(clean_json,file_name,page_number):
-    with open("data/raw_data/cleaned_"+file_name+ "_Page_" + str(page_number)+".json", "w") as f:
+#stockage dans json
+def to_clean_json(clean_json,file_name):
+    with open("data/cleaned_data/cleaned_"+file_name+".json", "w") as f:
         json.dump(clean_json,f)
 
 
-file1 = "data/raw_data/Covid2019-12-31_Page_0.json"
-file2 = "data/raw_data/Covid2020-01-31_Page_0.json"
 
-"""Test 1
-to_clean = import_json(file1)
-cleaned = json_clean(to_clean)
-to_clean_json(cleaned,"test", 1)
+def from_raw_to_clean(file):
+    to_treat = import_json(file)
+    name = file_name(file)
+    to_stock = json_clean(to_treat)
+    to_clean_json(to_stock, name)
 
-
-print(cleaned)
-"""
-
-# Test 2
-to_clean = import_json(file2)
-cleaned = json_clean(to_clean)
-to_clean_json(cleaned,"test", 2)
