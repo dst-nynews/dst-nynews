@@ -42,7 +42,3 @@ class ImportMongDB:
 json_cleaned = import_json("data/raw_data/Covid2020-01-31_Page_0.json")
 test = ImportMongDB("ArticleSearch")
 test.insert_mongoDB(json_cleaned)
-
-
-
-sdfgfs
