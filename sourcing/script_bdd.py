@@ -3,12 +3,8 @@ Script récupérant les fichiers Json de article search pour les mettre dans une
 """
 from pymongo import MongoClient
 import json
+import glob
 
-
-def import_json(file_name):
-    with open(file_name, "r") as file:
-        file_json = json.load(file)
-    return file_json
 
 
 
@@ -20,8 +16,10 @@ class ImportMongDB:
         self.db = db 
         self.coll = coll
 
-   
-    # insertion dans la bdd
+    def import_json(self,file_name):
+        with open(file_name, "r") as file:
+            file_json = json.load(file)
+        return file_json
     
     def insert_mongoDB(self,json_cleaned):
         client = MongoClient(
@@ -30,15 +28,22 @@ class ImportMongDB:
         )
         db = client[self.db]
         collection = db[self.coll]
+
+        to_stock = self.import_json(json_cleaned)
+
+        if to_stock != None:    
     
-        if isinstance(json_cleaned, list):
-            collection.insert_many(json_cleaned) 
-        else:
-            collection.insert_one(json_cleaned)
+            if isinstance(to_stock, list):
+                collection.insert_many(to_stock) 
+            else:
+                collection.insert_one(to_stock)
 
 
 
 #Test
-json_cleaned = import_json("data/raw_data/Covid2020-01-31_Page_0.json")
 test = ImportMongDB("ArticleSearch")
-test.insert_mongoDB(json_cleaned)
+
+liste_cleaned = glob.glob("data/cleaned_data/cleaned*")
+test = ImportMongDB("ArticleSearch")
+for i in liste_cleaned:
+    test.insert_mongoDB(i)

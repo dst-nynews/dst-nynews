@@ -6,6 +6,7 @@ Ces .json clean pourront ensuite être intégrés à la BDD grâce à "script_bd
 """
 import json
 import os
+import glob
 
 
 class ToCleanJsonArticleSearch:
@@ -57,7 +58,7 @@ class ToCleanJsonArticleSearch:
     
 
     def to_clean_json(self,clean_json,file_name):
-        with open("data/cleaned_data/cleaned_"+file_name+".json", "w") as f:
+        with open("data/cleaned_data/cleaned_"+file_name, "w") as f:
             json.dump(clean_json,f)
 
 
@@ -70,6 +71,6 @@ class ToCleanJsonArticleSearch:
 
 
 tcas = ToCleanJsonArticleSearch()
-test = "data/raw_data/Covid2020-01-31_Page_0.json"
-
-tcas.from_raw_to_clean(test)
+liste_test = glob.glob("data/raw_data/C*")
+for i in liste_test:
+    tcas.from_raw_to_clean(i)
