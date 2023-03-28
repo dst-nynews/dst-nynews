@@ -48,7 +48,7 @@ class ToCleanJsonArticleSearch:
                 article["news_desk"] = i.get("news_desk")
                 article["section_name"] =i.get("section_name")
                 article["subsection_name"] = i.get("subsection_name")
-                article["id"] = i.get("_id")
+                article["_id"] = i.get("_id")
                 article["word_count"] = i.get("word_count")
                 article["uri"] = i.get("uri")
 
