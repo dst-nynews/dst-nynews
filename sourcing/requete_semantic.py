@@ -93,6 +93,7 @@ class ApiSemantic:
         -concept_status
         -concept_type
         -concept_uri
+        -nb_articles
         -article_list:
             -body
             -concepts:
@@ -136,6 +137,7 @@ class ApiSemantic:
         conceptPropre["concept_status"] = results[0]['concept_status']
         conceptPropre["concept_type"] = results[0]['concept_type']
         conceptPropre["concept_uri"] = results[0]['concept_uri']
+        conceptPropre["nb_articles"] = results[0]['article_list']['total']
         conceptPropre["article_list"] = article_list_clean
 
         return conceptPropre

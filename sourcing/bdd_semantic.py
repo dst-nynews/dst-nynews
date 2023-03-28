@@ -53,6 +53,11 @@ concepts = db['Concepts']
 searchSemantic = db["SearchSemantic"]
 
 bddSemantic.insert_mongoDB("Baseball.json", concepts)
+bddSemantic.insert_mongoDB("Coronavirus (2019-nCoV).json", concepts)
+bddSemantic.insert_mongoDB("Acapulco (Mexico).json", concepts)
+bddSemantic.insert_mongoDB("Abbas, Mahmoud.json", concepts)
+bddSemantic.insert_mongoDB("Chicago White Sox.json", concepts)
+
 bddSemantic.insert_mongoDB("Coronavirus.json", searchSemantic)
 
 #articles = db['Articles']
