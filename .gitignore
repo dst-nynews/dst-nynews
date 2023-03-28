@@ -150,6 +150,7 @@ node_modules/
 # *PKG-INFO
 # *.csv
 # *.zip
-data/raw_data/ 
+data/raw_data/
+data/clean_data 
 playground/
 # notebooks/
