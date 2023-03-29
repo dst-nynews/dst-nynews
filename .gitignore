@@ -151,10 +151,10 @@ node_modules/
 # *PKG-INFO
 # *.csv
 # *.json
+# *.json
 *.db
 
 # Project folders #
+data/raw_data/ 
 # notebooks/
 playground/
-data/clean_data 
-data/raw_data/ 
