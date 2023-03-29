@@ -12,3 +12,7 @@ beautifulsoup4~=4.11.2
 sqlalchemy~=2.0.4
 fastapi~=0.89.1
 uvicorn~=0.20.0
+
+# DB
+sqlmodel~=0.0.8
+# psycopg2~=2.9.5
