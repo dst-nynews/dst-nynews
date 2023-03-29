@@ -155,6 +155,7 @@ node_modules/
 *.db
 
 # Project folders #
-data/raw_data/ 
 # notebooks/
 playground/
+data/clean_data 
+data/raw_data/ 
