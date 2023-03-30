@@ -28,6 +28,33 @@ load_dotenv()
 
 class ApiArticleSearch:
 
+    """
+    Classe permettant d'instancier un objet pour requeter l'API Article Search du NYT
+
+    Méthode :
+        init
+        get_article :   Se connecte à l'API "Article Search" du NYT pour la requêter
+            Args : 
+                Concept : le concept que l'on souhaite rechercher dans le NYT
+
+                filter : les filtres que l'on souhaite ajouter à notre requête (notamment la date de publications des articles que l'on souhaite obtenir)
+
+                page : Permet de choisir la page de réponse que l'on souhaite (l'API ne permettant d'obtenir qu'une page de 10 résultats par requête et 100 pages au maximum). Par défautl : la première page (0)
+
+        to_raw_json : Insère le json obtenu après la requête dans un fichier "nom_fichier_page_n°.json"
+            Args :
+                wb : Le json obtenu avec la requête
+                file_name : le nom du fichier dans lequel il sera stocké
+                page_number : le n° de page qui viendra complet le nom du fichier
+
+        request : Automatise la requête d'un concept pour avoir toutes les pages qui lui sont liées.
+
+            Args :
+                concept : Le concept qu'on souhaite requêter
+                file_name : Le nom que l'on souhaite donner au fichers récupérés (auquel s'ajoutera le n° de la page)
+                filter : Le filtre pour la requête (vide par défaut) 
+    """
+
     def __init__(self, repo_path= None):
         self.KEY_API = os.getenv("KEY_API_NYT")
         self.BASE_URI = "https://api.nytimes.com/svc/search/v2/articlesearch.json?q="
