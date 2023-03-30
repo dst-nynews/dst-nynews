@@ -1,26 +1,51 @@
-name: Python Code Review
-run-name: ${{ github.actor }} is reviewing Python code quality. 🔬 
-
-on: [push, pull_request]
-
+name: Control Push
+on: push
 jobs:
-  python-lint:
+  qa:
+    name: Check tests
     runs-on: ubuntu-20.04
     steps:
-    - uses: actions/checkout@v1
-    - uses: ricardochaves/python-lint@v1.4.0
-      with:
-        # python-root-list: "python_alelo tests"
-        python-root-list: "api_archive.py"
-        use-pylint: false
-        use-pycodestyle: false
-        use-flake8: true
-        use-black: false
-        use-mypy: false
-        use-isort: false
-        extra-pylint-options: ""
-        extra-pycodestyle-options: ""
-        extra-flake8-options: ""
-        extra-black-options: ""
-        extra-mypy-options: ""
-        extra-isort-options: ""
+      - name: Checkout on master
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@master
+        with:
+          python-version: "3.x"
+
+      - name: Install pytest and flake8
+        run: |
+          pip install pytest
+          pip install flake8
+
+      - name: Run tests
+        run: |
+          pytest
+
+      - name: Run flake8
+        uses: py-actions/flake8@v2
+
+# name: Python Code Review
+# run-name: ${{ github.actor }} is reviewing Python code quality. 🔬 
+# on: [push, pull_request]
+# jobs:
+#   python-lint:
+#     runs-on: ubuntu-20.04
+#     steps:
+#     - uses: actions/checkout@v1
+#     - uses: ricardochaves/python-lint@v1.4.0
+#       with:
+#         # python-root-list: "python_alelo tests"
+#         python-root-list: "api_archive.py"
+#         use-pylint: false
+#         use-pycodestyle: false
+#         use-flake8: true
+#         use-black: false
+#         use-mypy: false
+#         use-isort: false
+#         extra-pylint-options: ""
+#         extra-pycodestyle-options: ""
+#         extra-flake8-options: ""
+#         extra-black-options: ""
+#         extra-mypy-options: ""
+#         extra-isort-options: ""
