@@ -1,6 +1,6 @@
 """Get the 20 most popular articles of the NY Times.
 
-Fetch data by making a `GET` request to an endpont of the Most Popular API,
+Fetch data by making a `GET` request to an endpoint of the Most Popular API,
 and store the response as a JSON file in a folder.
 
 It needs:
@@ -70,7 +70,7 @@ class ApiMostPopular:
         """
 
         _today = date.today()
-        filename = f"most_popular-{endpoint}_{period}d-{_today.month}_{_today.day}.json"
+        filename = f"most_popular_{endpoint}_{period}d-{_today.month}_{_today.day}.json"
         if self.repo_path:
             filepath = self.repo_path + filename
         else:

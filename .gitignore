@@ -145,12 +145,18 @@ node_modules/
 # *.jpg
 # *.jpeg
 
-# Others #
+# Storage files #
+# *.zip
 # *.gz
 # *PKG-INFO
 # *.csv
-# *.zip
-data/raw_data/
-data/clean_data 
-playground/
+# *.json
+*.db
+
+# Project folders #
 # notebooks/
+playground/
+data/clean_data 
+# data/raw_data/
+data/raw_data/archive/
+data/raw_data/times_wire/

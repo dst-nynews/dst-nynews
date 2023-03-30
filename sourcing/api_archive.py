@@ -4,7 +4,7 @@ Fetch data by making a `GET` request to the Archive API,
 and store the response as a JSON file in a folder.
 
 It needs:
-    - API key,
+    - an API key,
     - the year and the month of the targeted data,
     - the path to a storage folder (optional).
 """
