@@ -5,7 +5,7 @@ on: [push, pull_request]
 
 jobs:
   python-lint:
-    runs-on: ubuntu-20.04
+    runs-on: macos-latest
     name: Lint
     steps:
       - name: Check out source repository
@@ -13,7 +13,7 @@ jobs:
       - name: Set up Python environment
         uses: actions/setup-python@v4
         with:
-          python-version: "3.8"
+          python-version: "3.8.14"
       - name: flake8 Lint
         uses: py-actions/flake8@v2
   
