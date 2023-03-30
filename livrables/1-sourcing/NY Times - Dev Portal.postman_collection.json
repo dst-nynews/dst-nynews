@@ -1,0 +1,716 @@
+{
+	"info": {
+		"_postman_id": "ea02716e-cca8-4805-a312-cace9d88be63",
+		"name": "NY Times - Dev Portal",
+		"description": "> Collection testing the [APIs of the New York Times](https://developer.nytimes.com/apis) that are publicly available on their [Dev Portal](https://developer.nytimes.com/).\n\n### Requirements\n\nYou need to specify **a valid API Key** to use those APIs.\nFollow this [link](https://developer.nytimes.com/get-started), to know how to get one.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13243200"
+	},
+	"item": [
+		{
+			"name": "Archive API",
+			"item": [
+				{
+					"name": "Archive",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/svc/archive/v1/:year/:month.json",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"svc",
+								"archive",
+								"v1",
+								":year",
+								":month.json"
+							],
+							"variable": [
+								{
+									"key": "year",
+									"value": "2018",
+									"description": "integer (required)"
+								},
+								{
+									"key": "month",
+									"value": "9",
+									"description": "integer (required)"
+								}
+							]
+						},
+						"description": "Pass in year and month and get back JSON with all articles for that month. The response can be big (\\~20 megabytes) and contain thousands of articles, depending on the year and month."
+					},
+					"response": []
+				}
+			],
+			"description": "### Overview\n\nThe Archive API returns an array of NYT articles for a given month, going back to 1851. Its response fields are the same as the Article Search API. The Archive API is very useful if you want to build your own database of NYT article metadata. You simply pass the API the year and month and it returns a JSON object with all articles for that month. The response size can be large (\\~20mb).\n\n- `/{year}/{month}.json` \n\n#### Example Call\n\n- `https://api.nytimes.com/svc/archive/v1/2019/1.json?api-key=yourkey` \n\n### Paths\n\n> **Base URI:**   `https://api.nytimes.com/svc/archive/v1` \n\n- **GET** `/{year}/{month}.json` \n\n### Components\n\n- Schemas\n    - **`Article`**\n    - **`Multimedia`**\n    - **`Headline`**\n    - **`Keyword`**\n    - **`Byline`**\n    - **`Person`**"
+		},
+		{
+			"name": "Article Search API",
+			"item": [
+				{
+					"name": "Article Search",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/svc/search/v2/articlesearch.json?fq=romney&page=1&facet_field=day_of_week&facet=true&begin_date=20120101&end_date=20120101",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"svc",
+								"search",
+								"v2",
+								"articlesearch.json"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "",
+									"description": "Query",
+									"disabled": true
+								},
+								{
+									"key": "fq",
+									"value": "romney",
+									"description": "Filter query: use filters to narrow the scope of your search. \n\nYou can specify the fields and the values that your query will be filtered on. \n\nThe Article Search API uses Elasticsearch, so the filter query (fq) uses standard Lucene syntax. Separate the filter field name and value with a colon, and surround multiple values with parentheses. \n\n`field-name:(\"value1\", \"value2\", ... \"value n\")` \n\nThe default connector for values in parentheses is OR. If you declare an explicit boolean value, it must be capitalized. You can filter on multiple values and fields.\n\n`field-name-1:(\"value1\") AND field-name-2:(\"value2\", \"value3\")` \n\n- For a list of all fields you can filter on, see the Filter Query Fields table.\n- You can also filter by search text."
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"description": "Page number (0, 1, ...)"
+								},
+								{
+									"key": "facet_field",
+									"value": "day_of_week",
+									"description": "Facets\n\nUse facets to view the relative importance of certain fields to a search term, and gain insight about how to best refine your queries and filter your search results.\n\nThe following fields can be used as facet fields: day_of_week, document_type, ingredients, news_desk, pub_month, pub_year, section_name, source, subsection_name, and type_of_material."
+								},
+								{
+									"key": "facet",
+									"value": "true",
+									"description": "Whether to show facet counts"
+								},
+								{
+									"key": "facet_filter",
+									"value": "",
+									"description": "Have facet counts use filters",
+									"disabled": true
+								},
+								{
+									"key": "fl",
+									"value": "",
+									"description": "Field list",
+									"disabled": true
+								},
+								{
+									"key": "begin_date",
+									"value": "20120101",
+									"description": "Begin date (e.g. 20120101)"
+								},
+								{
+									"key": "end_date",
+									"value": "20120101",
+									"description": "End date (e.g. 20121231)"
+								},
+								{
+									"key": "sort",
+									"value": "",
+									"description": "Sort order",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "### Overview\n\nUse the Article Search API to look up articles by keyword. You can refine your search using filters and facets.\n\n- `/articlesearch.json?q={query}&fq={filter}` \n\n#### Example Call\n\n- `https://api.nytimes.com/svc/search/v2/articlesearch.json?q=election&api-key=yourkey` \n\n### Paths\n\n> **Base URI:**   `https://api.nytimes.com/svc/search/v2` \n\n- **GET** `/articlesearch.json` \n\n### Components\n\n- Schemas \n    - **`Article`**\n    - **`Multimedia`**\n    - **`Headline`**\n    - **`Keyword`**\n    - **`Byline`**\n    - **`Person`**\n\n### Query Parameters\n\n#### FILTERING YOUR SEARCH\n\nUse filters to narrow the scope of your search. You can specify the fields and the values that your query will be filtered on. The Article Search API uses [Elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-simple-query-string-query.html#simple-query-string-syntax), so the filter query (fq) uses standard [Lucene syntax](http://www.lucenetutorial.com/lucene-query-syntax.html). Separate the filter field name and value with a colon, and surround multiple values with parentheses.\n\n`field-name:(\"value1\", \"value2\", ... \"value n\")`  \n\nThe default connector for values in parentheses is OR. If you declare an explicit boolean value, it must be capitalized. You can filter on multiple values and fields.\n\n`field-name-1:(\"value1\") AND field-name-2:(\"value2\", \"value3\")`  \n\n> For a list of all fields you can filter on, see the Filter Query Fields table below.\n\n> **You can also filter by search text.**\n\n### Pagination\n\nThe Article Search API returns a max of 10 results at a time. The meta node in the response contains the total number of matches (\"hits\") and the current offset. Use the page query parameter to paginate thru results (page=0 for results 1-10, page=1 for 11-20, ...). You can paginate thru up to 100 pages (1,000 results). If you get too many results try filtering by date range.\n\n### Filter Query Examples\n\nRestrict your search to articles with The New York Times as the source:\n\n`fq=source:(\"The New York Times\")`  \n\nRestrict your search to articles from either the Sports or Foreign desk:\n\n`fq=news_desk:(\"Sports\", \"Foreign\")`  \n\nRestrict your search to articles that are about New York City and from the Sports desk:\n\n`fq=news_desk:(\"Sports\") AND glocations:(\"NEW YORK CITY\")`  \n\nIf you do not specify a field, the scope of the filter query will look for matches in the body, headline and byline. The example below will restrict your search to articles with The New York Times in the body, headline or byline:\n\n`fq=The New York Times`\n\nFind articles with the word Pokemon that were on the print paper's front page.\n\n`fq=Pokemon AND print_page:1 AND (print_section:(\"A\", \"1\") OR (!_exists_:print_section))`\n\n### Filter Query Fields\n\n| Field | Behavior |\n| --- | --- |\n| body | Multiple tokens |\n| body.search | Left-edge n-grams |\n| creative_works | Single token |\n| creative_works.contains | Multiple tokens |\n| day_of_week | Single token |\n| document_type | Case-sensitive exact match |\n| glocations | Single token |\n| glocations.contains | Multiple tokens |\n| headline | Multiple tokens |\n| headline.search | Left-edge n-grams |\n| kicker | Single token |\n| kicker.contains | Multiple tokens |\n| news_desk | Single token |\n| news_desk.contains | Multiple tokens |\n| organizations | Single token |\n| organizations.contains | Multiple tokens |\n| persons | Single token |\n| persons.contains | Multiple tokens |\n| pub_date | Timestamp (YYYY-MM-DD) |\n| pub_year | Integer |\n| secpg | Multiple tokens |\n| source | Single token |\n| source.contains | Multiple tokens |\n| subject | Single token |\n| subject.contains | Multiple tokens |\n| section_name | Single token |\n| section_name.contains | Multiple tokens |\n| type_of_material | Single token |\n| type_of_material.contains | Multiple tokens |\n| web_url | Single token (case-sensitive) |\n| word_count | Integer |\n\n#### News Desk Values\n\n| News Desk |\n| --- |\n| Adventure Sports |\n| Arts & Leisure |\n| Arts |\n| Automobiles |\n| Blogs |\n| Books |\n| Booming |\n| Business Day |\n| Business |\n| Cars |\n| Circuits |\n| Classifieds |\n| Connecticut |\n| Crosswords & Games |\n| Culture |\n| DealBook |\n| Dining |\n| Editorial |\n| Education |\n| Energy |\n| Entrepreneurs |\n| Environment |\n| Escapes |\n| Fashion & Style |\n| Fashion |\n| Favorites |\n| Financial |\n| Flight |\n| Food |\n| Foreign |\n| Generations |\n| Giving |\n| Global Home |\n| Health & Fitness |\n| Health |\n| Home & Garden |\n| Home |\n| Jobs |\n| Key |\n| Letters |\n| Long Island |\n| Magazine |\n| Market Place |\n| Media |\n| Men's Health |\n| Metro |\n| Metropolitan |\n| Movies |\n| Museums |\n| National |\n| Nesting |\n| Obits |\n| Obituaries |\n| Obituary |\n| OpEd |\n| Opinion |\n| Outlook |\n| Personal Investing |\n| Personal Tech |\n| Play |\n| Politics |\n| Regionals |\n| Retail |\n| Retirement |\n| Science |\n| Small Business |\n| Society |\n| Sports |\n| Style |\n| Sunday Business |\n| Sunday Review |\n| Sunday Styles |\n| T Magazine |\n| T Style |\n| Technology |\n| Teens |\n| Television |\n| The Arts |\n| The Business of Green |\n| The City Desk |\n| The City |\n| The Marathon |\n| The Millennium |\n| The Natural World |\n| The Upshot |\n| The Weekend |\n| The Year in Pictures |\n| Theater |\n| Then & Now |\n| Thursday Styles |\n| Times Topics |\n| Travel |\n| U.S. |\n| Universal |\n| Upshot |\n| UrbanEye |\n| Vacation |\n| Washington |\n| Wealth |\n| Weather |\n| Week in Review |\n| Week |\n| Weekend |\n| Westchester |\n| Wireless Living |\n| Women's Health |\n| Working |\n| Workplace |\n| World |\n| Your Money |\n\n#### Section Name Values\n\n| Section Name |\n| --- |\n| Arts |\n| Automobiles |\n| Autos |\n| Blogs |\n| Books |\n| Booming |\n| Business |\n| Business Day |\n| Corrections |\n| Crosswords & Games |\n| Crosswords/Games |\n| Dining & Wine |\n| Dining and Wine |\n| Editors' Notes |\n| Education |\n| Fashion & Style |\n| Food |\n| Front Page |\n| Giving |\n| Global Home |\n| Great Homes & Destinations |\n| Great Homes and Destinations |\n| Health |\n| Home & Garden |\n| Home and Garden |\n| International Home |\n| Job Market |\n| Learning |\n| Magazine |\n| Movies |\n| Multimedia |\n| Multimedia/Photos |\n| N.Y. / Region |\n| N.Y./Region |\n| NYRegion |\n| NYT Now |\n| National |\n| New York |\n| New York and Region |\n| Obituaries |\n| Olympics |\n| Open |\n| Opinion |\n| Paid Death Notices |\n| Public Editor |\n| Real Estate |\n| Science |\n| Sports |\n| Style |\n| Sunday Magazine |\n| Sunday Review |\n| T Magazine |\n| T:Style |\n| Technology |\n| The Public Editor |\n| The Upshot |\n| Theater |\n| Times Topics |\n| TimesMachine |\n| Today's Headlines |\n| Topics |\n| Travel |\n| U.S. |\n| Universal |\n| UrbanEye |\n| Washington |\n| Week in Review |\n| World |\n| Your Money |\n\n#### Type of Material Values\n\n| Type of Material |\n| --- |\n| Addendum |\n| An Analysis |\n| An Appraisal |\n| Archives |\n| Article |\n| Banner |\n| Biography |\n| Birth Notice |\n| Blog |\n| Brief |\n| Caption |\n| Chronology |\n| Column |\n| Correction |\n| Economic Analysis |\n| Editorial |\n| Editorial Cartoon |\n| Editors' Note |\n| First Chapter |\n| Front Page |\n| Glossary |\n| Interactive Feature |\n| Interactive Graphic |\n| Interview |\n| Letter |\n| List |\n| Marriage Announcement |\n| Military Analysis |\n| News |\n| News Analysis |\n| Newsletter |\n| Obituary |\n| Obituary (Obit) |\n| Op-Ed |\n| Paid Death Notice |\n| Postscript |\n| Premium |\n| Question |\n| Quote |\n| Recipe |\n| Review |\n| Schedule |\n| SectionFront |\n| Series |\n| Slideshow |\n| Special Report |\n| Statistics |\n| Summary |\n| Text |\n| Video |\n| Web Log |\n    \n\n## USING FACETS\n\nUse facets to view the relative importance of certain fields to a search term, and gain insight about how to best refine your queries and filter your search results.\n\nThe following fields can be used as facet fields: day_of_week, document_type, ingredients, news_desk, pub_month, pub_year, section_name, source, subsection_name, and type_of_material.\n\nSpecify facets using the facet_fields parameter. Set facet=true and the response will contain an array with a count for the five terms that have the highest count for each facet. For example, including the following in your request will add a facet array with a count for the top five days of the week to the response.\n\n`facet_fields=day_of_week&facet=true`\n\nBy default, facet counts ignore all filters and return the count for all results of a query. For the following queries, the facet count in each response will be identical, even though the results returned in one set is restricted to articles published in 2012.\n\n`q=obama&facet_fields=source&facet=true&begin_date=20120101&end_date=20121231`\n\nYou can force facet counts to respect filters by setting facet_filter=true. Facet counts will be restricted based on any filters you have specified (this includes both explicit filter queries set using the fq parameter and implicit filters like begin_date).\n\nHere is the facet array response to the query.\n\n```\n\"facets\": {\n  \"source\": {\n    \"_type\": \"terms\",\n    \"missing\": 524,\n    \"total\": 83121,\n    \"other\": 317,\n    \"terms\": [\n      {\n        \"term\": \"The New York Times\",\n        \"count\": 68530\n      },\n      {\n        \"term\": \"AP\",\n        \"count\": 7705\n      },\n      {\n        \"term\": \"Reuters\",\n        \"count\": 4969\n      },\n      {\n        \"term\": \"International Herald Tribune\",\n        \"count\": 1464\n      },\n      {\n        \"term\": \"\",\n        \"count\": 136\n      }\n    ]\n  }\n}\n\n```\n\nIf you set facet_filter to true the facet array will only count facet occurences in 2012.\n\n```\nfacets\": {\n  \"source\": {\n    \"_type\": \"terms\",\n    \"missing\": 192,\n    \"total\": 22596,\n    \"other\": 139,\n    \"terms\": [\n      {\n        \"term\": \"The New York Times\",\n        \"count\": 14812\n      },\n      ...\n\n```\n\n### Examples Requests\n\nSearch for documents containing 'new york times' and return results 20-29 with results sorted oldest first.\n\n`https://api.nytimes.com/svc/search/v2/articlesearch.json?q=new+york+times&page=2&sort=oldest&api-key=your-api-key`\n\nSearch for all documents published on January 1, 2012 containing 'romney'. Facet count will be returned for 'day_of_week' and will be reflective of all documents (i.e., the date range filter and filter query do not affect facet counts).\n\n`https://api.nytimes.com/svc/search/v2/articlesearch.json?fq=romney&facet_field=day_of_week&facet=true&begin_date=20120101&end_date=20120101&api-key=your-api-key`\n\n### Example Response\n\nHere is an partial example response.\n\n```\n{\n  \"response\": {\n    \"meta\": {\n      \"hits\": 25,\n      \"time\": 332,\n      \"offset\": 0\n    },\n    \"docs\": [\n      {\n        \"web_url\": \"http://thecaucus.blogs.nytimes.com/2012/01/01/virginia-attorney-general-backs-off-ballot-proposal/\",\n        \"snippet\": \"Virginia's attorney general on Sunday backed off of a proposal to loosen the state's ballot access rules to allow more Republican presidential candidates to qualify.\",\n        \"lead_paragraph\": \"DES MOINES -- Virginia's attorney general on Sunday backed off of a proposal to loosen the state's ballot access rules to allow more Republican presidential candidates to qualify.\",\n        ...\n      }\n    ],\n    \"facets\": {\n        \"day_of_week\": {\n            \"_type\": \"terms\",\n            \"missing\": 1871790,\n            \"total\": 13098462,\n            \"other\": 3005891,\n            \"terms\": [\n              {\n                \"term\": \"Sunday\",\n                \"count\": 3122347\n              },\n              ...\n\n```\n\n### Limit Fields in Response\n\nYou can limit the number fields returned in the response with the fl parameter.\n\n`fl=web_url`"
+		},
+		{
+			"name": "Books API",
+			"item": [
+				{
+					"name": "lists",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/svc/books/v3/lists.json?list=hardcover-fiction",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"svc",
+								"books",
+								"v3",
+								"lists.json"
+							],
+							"query": [
+								{
+									"key": "list",
+									"value": "hardcover-fiction",
+									"description": "string (mandatory)\nThe name of the Times best sellers list (hardcover-fiction, paperback-nonfiction, ...). The /lists/names service returns all the list names. The encoded list names are lower case with hyphens instead of spaces (e.g. e-book-fiction, instead of E-Book Fiction)."
+								},
+								{
+									"key": "bestsellers-date",
+									"value": "",
+									"description": "string (optional) - YYYY-MM-DD",
+									"disabled": true
+								},
+								{
+									"key": "published-date",
+									"value": "",
+									"description": "string (optional) - YYYY-MM-DD",
+									"disabled": true
+								},
+								{
+									"key": "offset",
+									"value": "",
+									"description": "integer (optional) - must be a multiple of 20",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "date list",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/svc/books/v3/lists/:date/:list.json",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"svc",
+								"books",
+								"v3",
+								"lists",
+								":date",
+								":list.json"
+							],
+							"query": [
+								{
+									"key": "offset",
+									"value": "",
+									"description": "integer (optional) - must be a multiple of 20",
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "date",
+									"value": "current",
+									"description": "string (mandatory) - YYYY-MM-DD or \"current\""
+								},
+								{
+									"key": "list",
+									"value": "hardcover-fiction",
+									"description": "string (mandatory)\nThe name of the Times best sellers list (hardcover-fiction, paperback-nonfiction, ...). The /lists/names service returns all the list names. The encoded list names are lower case with hyphens instead of spaces (e.g. e-book-fiction, instead of E-Book Fiction). You can get the full list of names from the /lists/names.json service."
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "### Overview\n\nThe Books API provides information about book reviews and The New York Times Best Sellers lists."
+		},
+		{
+			"name": "Most Popular API",
+			"item": [
+				{
+					"name": "emailed",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/svc/mostpopular/v2/emailed/:period.json",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"svc",
+								"mostpopular",
+								"v2",
+								"emailed",
+								":period.json"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "period",
+									"value": "7",
+									"description": "integer (required) - values: 1, 7 or 30 (nb of days)"
+								}
+							]
+						},
+						"description": "> Returns an array of the most emailed articles on NYTimes.com for specified period of time (1 day, 7 days, or 30 days)."
+					},
+					"response": []
+				},
+				{
+					"name": "shared",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/svc/mostpopular/v2/shared/:period.json",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"svc",
+								"mostpopular",
+								"v2",
+								"shared",
+								":period.json"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "period",
+									"value": "7",
+									"description": "integer (required) - values: 1, 7 or 30 (nb of days)"
+								}
+							]
+						},
+						"description": "> Returns an array of the most shared articles on NYTimes.com for specified period of time (1 day, 7 days, or 30 days)."
+					},
+					"response": []
+				},
+				{
+					"name": "shared type",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/svc/mostpopular/v2/shared/:period/:share_type.json",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"svc",
+								"mostpopular",
+								"v2",
+								"shared",
+								":period",
+								":share_type.json"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "period",
+									"value": "7",
+									"description": "integer (required) - values: 1, 7 or 30 (nb of days)"
+								},
+								{
+									"key": "share_type",
+									"value": "facebook",
+									"description": "string (required)"
+								}
+							]
+						},
+						"description": "> Returns an array of the most shared articles by share type on NYTimes.com for specified period of time (1 day, 7 days, or 30 days)."
+					},
+					"response": []
+				},
+				{
+					"name": "viewed",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseURL}}/svc/mostpopular/v2/viewed/:period.json",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"svc",
+								"mostpopular",
+								"v2",
+								"viewed",
+								":period.json"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "period",
+									"value": "7",
+									"description": "integer (required) - values: 1, 7 or 30 (nb of days)"
+								}
+							]
+						},
+						"description": "> Returns an array of the most viewed articles on NYTimes.com for specified period of time (1 day, 7 days, or 30 days)."
+					},
+					"response": []
+				}
+			],
+			"description": "### Overview\n\nProvides services for getting the most popular articles on NYTimes.com based on emails, shares, or views.\n\n#### Example Call\n\n- `https://api.nytimes.com/svc/search/v2/articlesearch.json?q=election&api-key=yourkey`  \n\n### Paths\n\n> **Base URI:**   `https://api.nytimes.com/svc/mostpopular/v2`  \n\n- **`EmailedArticle`** \n    - **GET** `/emailed/{period}.json` \n\n\n- **`SharedArticle`** \n    - **GET** `/shared/{period}.json` \n    - **GET** `/shared/{period}/{share_type}.json` \n\n\n- **`ViewedArtcile`**\n    - **GET** `/viewed/{period}.json` \n\n### Components\n\n- Schemas\n    - **`EmailedArticle`**\n    - **`SharedArticle`**\n    - **`ViewedArtcile`**\n    - **`Media`**\n    - **`MediaMetadata`**"
+		},
+		{
+			"name": "Movie Reviews API",
+			"item": [
+				{
+					"name": "critics",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/svc/movies/v2/critics/:reviewer.json",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"svc",
+								"movies",
+								"v2",
+								"critics",
+								":reviewer.json"
+							],
+							"variable": [
+								{
+									"key": "reviewer",
+									"value": "all"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "### Overview\n\nSearch New York Times movie reviews by keyword and opening date and filter by Critics' Picks."
+		},
+		{
+			"name": "Semantic API",
+			"item": [
+				{
+					"name": "name concept",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/svc/semantic/v2/concept/name/:concept_type/:specific_concept.json",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"svc",
+								"semantic",
+								"v2",
+								"concept",
+								"name",
+								":concept_type",
+								":specific_concept.json"
+							],
+							"query": [
+								{
+									"key": "query",
+									"value": "",
+									"description": "string (required)",
+									"disabled": true
+								},
+								{
+									"key": "fields",
+									"value": "pages,links,scope_notes",
+									"description": "string (optional)\nThe following values are allowed:\nall, pages, ticker_symbol, links, taxonomy, combinations, geocodes, article_list, scope_notes, search_api_query",
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "concept_type",
+									"value": null
+								},
+								{
+									"key": "specific_concept",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "search",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/svc/semantic/v2/concept/search.json",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"svc",
+								"semantic",
+								"v2",
+								"concept",
+								"search.json"
+							],
+							"query": [
+								{
+									"key": "query",
+									"value": "",
+									"description": "integer (required)",
+									"disabled": true
+								},
+								{
+									"key": "offfset",
+									"value": "",
+									"description": "integer (optional)",
+									"disabled": true
+								},
+								{
+									"key": "fields",
+									"value": "pages,links,scope_notes",
+									"description": "string (optional)\nThe following values are allowed:\nall, pages, ticker_symbol, links, taxonomy, combinations, geocodes, article_list, scope_notes, search_api_query",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "### Overview\n\nThe Semantic API complements the Articles API. With the Semantic API, you get access to the long list of people, places, organizations and other locations, entities and descriptors that make up the controlled vocabulary used as metadata by The New York Times (sometimes referred to as Times Tags and used for Times Topics pages.\n\n#### Scope\n\nThe New York Times controlled vocabulary (over 100,000 people, places, organizations and descriptors used to classify New York Times articles metadata) and New York Times articles from 1981 to today (excludes wire services such as the Associated Press)\n\n### Paths\n\n> **BASE URI:**   `http://api.nytimes.com/svc/semantic/v2/concept` \n\n- **`Concept`** \n    - **GET** `/name/{concept-type}/{specific-concept}.json` \n\n\n- **`ConceptRelation`** \n    - **GET** `/name/{concept-type}/{specific-concept}.json` \n    - **GET** `/search.json` \n\n### Components\n\n- Schemas\n    - **`Concept`**\n    - **`ConceptRelation`**"
+		},
+		{
+			"name": "Times Newswire API",
+			"item": [
+				{
+					"name": "content",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/svc/news/v3/content.json",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"svc",
+								"news",
+								"v3",
+								"content.json"
+							],
+							"query": [
+								{
+									"key": "url",
+									"value": "\n",
+									"description": "url (required)",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "source section",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/svc/news/v3/content/:source/:section.json",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"svc",
+								"news",
+								"v3",
+								"content",
+								":source",
+								":section.json"
+							],
+							"variable": [
+								{
+									"key": "source",
+									"value": "all",
+									"description": "string (required)\n\nThe following values are allowed: all, nyt, inyt\n\nLimits the set of items by originating source.\n\n- all = items from both The New York Times and The International New York Times \n- nyt = New York Times items only \n- inyt = International New York Times items only (FKA The International Herald Tribune)"
+								},
+								{
+									"key": "section",
+									"value": "all",
+									"description": "string (required)\n\nLimits the set of items by a section. \n\nThe values can be:\n  - all = to get all sections \n  - a section name\n\nTo get a particular section, use the section name returned by the `section-list` request:\nhttp://api.nytimes.com/svc/news/v3/content/section-list.json"
+								}
+							]
+						},
+						"description": "> You can filter results by source (all, nyt, inyt) and section (arts, business, ...).  \n\n- `/content/{source}/{section}.json`  \n\n#### Example Calls\n\n-  `https://api.nytimes.com/svc/news/v3/content/all/all.json?api-key=yourkey`  \n\n\n-  `https://api.nytimes.com/svc/news/v3/content/nyt/business.json?api-key=yourkey`"
+					},
+					"response": []
+				},
+				{
+					"name": "section-list",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/svc/news/v3/content/section-list.json",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"svc",
+								"news",
+								"v3",
+								"content",
+								"section-list.json"
+							]
+						},
+						"description": "> The section-list endpoint returns a list of sections.\n\n- `/content/section-list`  \n\n#### Example Call \n\n- `https://api.nytimes.com/svc/news/v3/content/section-list.json?api-key=yourkey`"
+					},
+					"response": []
+				}
+			],
+			"description": "### Overview\n\nWith the Times Newswire API, you can get links and metadata for Times' articles as soon as they are published on NYTimes.com. \n \nThe Times Newswire API provides an up-to-the-minute stream of published articles. \n\n### Paths\n\n> **Base URI:**   `https://api.nytimes.com/svc/news/v3`  \n\n- **`Article`**\n    - **GET** `/content.json` \n    - **GET** `/content/{source}/{section}.json` \n\n\n- **`Section`**\n    - **GET** `/content/section-list.json` \n\n### Components\n\n- Schemas\n    - **`Article`**\n    - **`Section`**"
+		},
+		{
+			"name": "Top Stories API",
+			"item": [
+				{
+					"name": "section",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/svc/topstories/v2/:section.json",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"svc",
+								"topstories",
+								"v2",
+								":section.json"
+							],
+							"variable": [
+								{
+									"key": "section",
+									"value": "politics",
+									"description": "integer (required)\n\nThe following values are allowed:\narts, automobiles, books, business, fashion, food, health, home, insider, magazine, movies, nyregion, obituaries, opinion, politics, realestate, science, sports, sundayreview, technology, theater, t-magazine, travel, upshot, us, world"
+								}
+							]
+						},
+						"description": "> The Top Stories API returns an array of articles currently on the specified section."
+					},
+					"response": []
+				}
+			],
+			"description": "### Overview\n\nThe Top Stories API returns an array of articles currently on the specified section (arts, business, ...).\n\n- `/{section}.json`  \n\n\n- Use home to get articles currently on the homepage.\n    - `/home.json`  \n\nThe possible section value are:  \n_arts, automobiles, books, business, fashion, food, health, home, insider, magazine, movies, nyregion, obituaries, opinion, politics, realestate, science, sports, sundayreview, technology, theater, t-magazine, travel, upshot, us, world_\n\n#### Example Calls\n\n`https://api.nytimes.com/svc/topstories/v2/arts.json?api-key=yourkey` \n\n### Paths\n\n> **Base URI:**   `https://api.nytimes.com/svc/topstories/v2`  \n\n- **GET** `/{section}.json`  \n\n### Components\n\n- Schemas\n    - **`Artcicle`**"
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "in",
+				"value": "query",
+				"type": "string"
+			},
+			{
+				"key": "value",
+				"value": "{{appKey}}",
+				"type": "string"
+			},
+			{
+				"key": "key",
+				"value": "api-key",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
