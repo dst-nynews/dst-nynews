@@ -1,16 +1,7 @@
-# prod
+# PROD
 -r requirements.txt
 
-# dev
-## workspace
-python-dotenv==1.0.0
-colorama==0.4.6
-
-## test
-pytest==7.2.1
-pytest-cov==4.0.0
-coverage==7.1.0
-
+# DEV
 ## linter
 flake8==6.0.0
 
@@ -24,3 +15,12 @@ mypy==0.991
 ## security
 bandit==1.7.4
 safety==2.3.5
+
+## test
+pytest==7.2.1
+pytest-cov==4.0.0
+coverage==7.1.0
+
+## workspace
+# python-dotenv==1.0.0
+# colorama==0.4.6
