@@ -33,7 +33,8 @@ def create_db_and_tables():
 
     In this case, only one line that creates the database file with the table.
     """
-    # Create all the tables that were automatically registered in SQLModel.metadata.
+    # Create all the tables
+    # (The tables were automatically registered in SQLModel.metadata.)
     SQLModel.metadata.create_all(engine)
 
 
