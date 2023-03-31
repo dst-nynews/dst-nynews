@@ -4,7 +4,7 @@ from sqlmodel import Session
 
 from .database import create_db_and_tables, engine
 from .models import Count
-# from .models import Hero, Team
+# from .models import County, State
 
 
 def create_counts():
@@ -52,16 +52,14 @@ def create_counts():
 
 # def create_heroes():
 #     with Session(engine) as session:
-#         team_z_force = Team(name="Z-Force", headquarters="Sister Margaret’s Bar")
-
+#         team_z_force = Team(name="Z-Force",
+#                             headquarters="Sister Margaret’s Bar")
 #         hero_deadpond = Hero(
 #             name="Deadpond", secret_name="Dive Wilson", team=team_z_force
 #         )
 #         session.add(hero_deadpond)
 #         session.commit()
-
 #         session.refresh(hero_deadpond)
-
 #         print("Created hero:", hero_deadpond)
 #         print("Hero's team:", hero_deadpond.team)
 
@@ -72,11 +70,13 @@ def main():
     And put some logic to be executed when this is called directly with Python,
     but that is not executed when importing something from this module.
     """
+
     create_db_and_tables()
     create_counts()
     # create_heroes()
 
 
 if __name__ == "__main__":
+
     # In this main block, call the functions to run the script.
     main()

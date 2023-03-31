@@ -1,7 +1,20 @@
 from datetime import date
-from typing import List, Optional
+from typing import Optional
 
-from sqlmodel import Field, Relationship, SQLModel
+from sqlmodel import Field, SQLModel
+
+
+class State(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    name: str
+    fips: int
+
+
+class County(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    name: str
+    fips: int
+    state_id: Optional[int] = Field(default=None, foreign_key="state.id")
 
 
 class Count(SQLModel, table=True):
@@ -12,11 +25,12 @@ class Count(SQLModel, table=True):
 
     id: Optional[int] = Field(default=None, primary_key=True)
     date: date
-    state: str
-    county: str
-    fips: int
     cases: int
     deaths: int
+    state: str
+    county: str
+    # state_id: Optional[int] = Field(default=None, foreign_key="state.id")
+    # county_id: Optional[int] = Field(default=None, foreign_key="county.id")
 
 
 # class Team(SQLModel, table=True):
