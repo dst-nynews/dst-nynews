@@ -1,41 +1,10 @@
 from datetime import date
-from typing import Optional
 
-from sqlmodel import Field, Session, SQLModel, create_engine
+from sqlmodel import Session
 
-
-class Count(SQLModel, table=True):
-    """Create the model class, representing the table in the database.
-
-    And also mark this class as a table model with table=True.
-    """
-
-    id: Optional[int] = Field(default=None, primary_key=True)
-    date: date
-    state: str
-    county: str
-    fips: int
-    cases: int
-    deaths: int
-
-
-# Write the name of the database file.
-sqlite_file_name = "covid.db"
-# Use the name of the database file to create the database URL.
-sqlite_url = f"sqlite:///{sqlite_file_name}"
-
-# Create the engine using the URL. This doesn't create the database yet.
-engine = create_engine(sqlite_url, echo=True)
-
-
-def create_db_and_tables():
-    """Put the code that creates side effects in a function.
-
-    In this case, only one line that creates the database file with the table.
-    """
-    # Create all the tables
-    # (The tables were automatically registered in SQLModel.metadata.)
-    SQLModel.metadata.create_all(engine)
+from .database import create_db_and_tables, engine
+from .models import Count
+# from .models import Hero, Team
 
 
 def create_counts():
@@ -81,13 +50,33 @@ def create_counts():
         session.commit()
 
 
-if __name__ == "__main__":
+# def create_heroes():
+#     with Session(engine) as session:
+#         team_z_force = Team(name="Z-Force", headquarters="Sister Margaret’s Bar")
+
+#         hero_deadpond = Hero(
+#             name="Deadpond", secret_name="Dive Wilson", team=team_z_force
+#         )
+#         session.add(hero_deadpond)
+#         session.commit()
+
+#         session.refresh(hero_deadpond)
+
+#         print("Created hero:", hero_deadpond)
+#         print("Hero's team:", hero_deadpond.team)
+
+
+def main():
     """Add a main block, or "Top-level script environment".
 
     And put some logic to be executed when this is called directly with Python,
     but that is not executed when importing something from this module.
     """
-
-    # In this main block, call the functions to run the script.
     create_db_and_tables()
     create_counts()
+    # create_heroes()
+
+
+if __name__ == "__main__":
+    # In this main block, call the functions to run the script.
+    main()
