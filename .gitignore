@@ -151,11 +151,12 @@ node_modules/
 # *PKG-INFO
 # *.csv
 # *.json
-# *.json
 *.db
 
 # Project folders #
 # notebooks/
 playground/
 data/clean_data 
-data/raw_data/ 
+# data/raw_data/
+data/raw_data/archive/
+data/raw_data/times_wire/
