@@ -20,8 +20,8 @@ uvicorn[standard]~=0.21.1  # for DEV
 
 ## BDD
 pymongo~=4.3.3
-sqlmodel~=0.0.8
 psycopg2~=2.9.5
+sqlmodel~=0.0.8
 
 # DEVOPS
 ## env
