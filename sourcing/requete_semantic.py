@@ -32,6 +32,7 @@ import requests
 import pandas as pd
 import json
 import os
+import time
 from pprint import pprint
 from dotenv import load_dotenv
 from typing import Dict, Optional
@@ -245,7 +246,7 @@ class ApiSemantic:
 
 
 # test requête type/concept
-semantic = ApiSemantic("../data/raw_data/", "../data/clean_data/")
+semantic = ApiSemantic("../data/raw_data/semantic/", "../data/clean_data/semantic/")
 
 typeDes = "nytd_des"
 typeGeo = "nytd_geo"
@@ -256,8 +257,8 @@ conceptDes1 = "Coronavirus (2019-nCoV)"
 #semantic.get_concept(conceptDes1,typeDes)
 semantic.type_concept_to_clean_Json(conceptDes1, typeDes)
 
-conceptDes2 = "Baseball"
-semantic.type_concept_to_clean_Json(conceptDes2, typeDes)
+#conceptDes2 = "Baseball"
+#semantic.type_concept_to_clean_Json(conceptDes2, typeDes)
 
 conceptGeo = "Acapulco (Mexico)"
 semantic.type_concept_to_clean_Json(conceptGeo, typeGeo)
@@ -268,8 +269,10 @@ semantic.type_concept_to_clean_Json(conceptPer, typePer)
 conceptOrg = "Chicago White Sox"
 semantic.type_concept_to_clean_Json(conceptOrg, typeOrg)
 
-conceptInexistant = "Baskurt, Can"
-semantic.type_concept_to_clean_Json(conceptInexistant, typeDes)
+#time.sleep(10)
+
+#conceptInexistant = "Baskurt, Can"
+#semantic.type_concept_to_clean_Json(conceptInexistant, typeDes)
 
 
 # test requête search
