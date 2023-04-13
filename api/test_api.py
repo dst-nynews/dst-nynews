@@ -20,6 +20,7 @@ concepts = db["Concepts"]
 searchMostPopular = db["SearchMostPopular"]
 searchSemantic = db["SearchSemantic"]
 
+# Création de l'API
 api = FastAPI(
     title = "New-York Times  ",
     description = "API du projet New-York Times du Bootcamp DE de février 2023",
@@ -37,12 +38,15 @@ api = FastAPI(
 ArticleSearch = ApiArticleSearch()
 semantic = ApiSemantic("../data/raw_data/", "../data/clean_data/")
 
+
+
+# Requêtes ArticleSearch
 @api.get('/articleSearchApi', name="Requête ArticleSearch", tags=['Requête API New-York Times'])
 def requestArticleSearch(motCle : str, nomFichier : str, filtre : Optional[str]="" ):
     ArticleSearch.request(motCle, nomFichier, filtre )
     return "Fichier bien récupéré"
 
-
+# Requête liste concept officiels lié à un mot clé
 @api.get('/semantic', name="Requête Semantic inconnu", tags=['Requête API New-York Times'])
 def requestSemantic(conceptInconnu):
     answer = []
