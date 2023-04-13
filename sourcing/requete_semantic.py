@@ -244,7 +244,7 @@ class ApiSemantic:
         self.write_clean_search_to_JSON(cleanSearch1, searchString)
 
 
-
+"""
 # test requête type/concept
 semantic = ApiSemantic("../data/raw_data/semantic/", "../data/clean_data/semantic/")
 
@@ -278,3 +278,4 @@ semantic.type_concept_to_clean_Json(conceptOrg, typeOrg)
 # test requête search
 searchString = "Coronavirus"
 semantic.search_to_clean_Json(searchString)
+"""

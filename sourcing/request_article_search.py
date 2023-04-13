@@ -102,7 +102,7 @@ class ApiArticleSearch:
             page_number : le n° de page qui viendra complet le nom du fichier
         """
 
-        with open("data/raw_data/"+file_name+ "_Page_" + str(page_number)+".json", "w") as f:
+        with open("../data/raw_data/"+file_name+ "_Page_" + str(page_number)+".json", "w") as f:
             json.dump(wb,f)
 
 
@@ -149,8 +149,7 @@ class ApiArticleSearch:
 
 
 
-
-
+"""
 # TEST
 daterange = pd.date_range(start="2019,31,12", end="2023,07,02", freq="m")
 
@@ -162,3 +161,4 @@ for i in daterange:
     filtre = f"pub_date:({date})"
     test.request(concept,fichier_name,filtre)
     time.sleep(5)
+    """
