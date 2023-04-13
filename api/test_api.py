@@ -27,10 +27,10 @@ api = FastAPI(
     version = "1.0.1",
     openapi_tags=[
     {
-        'name': 'Requête API New-York Times'
+        'name': 'Requête cas métier n°1'
     },
     {
-        'name': 'Requête BDD NoSQL',
+        'name': 'Requête cas métier n°2',
     }
 ])
 
@@ -41,13 +41,13 @@ semantic = ApiSemantic("../data/raw_data/", "../data/clean_data/")
 
 
 # Requêtes ArticleSearch
-@api.get('/articleSearchApi', name="Requête ArticleSearch", tags=['Requête API New-York Times'])
+@api.get('/articleSearchApi', name="Requête ArticleSearch", tags=['Requête cas métier n°1'])
 def requestArticleSearch(motCle : str, nomFichier : str, filtre : Optional[str]="" ):
     ArticleSearch.request(motCle, nomFichier, filtre )
     return "Fichier bien récupéré"
 
 # Requête liste concept officiels lié à un mot clé
-@api.get('/semantic', name="Requête Semantic inconnu", tags=['Requête API New-York Times'])
+@api.get('/semantic', name="Requête Semantic inconnu", tags=['Requête cas métier n°2'])
 def requestSemantic(conceptInconnu):
     answer = []
     if searchSemantic.find_one({"search_name" : conceptInconnu}) != None:
@@ -63,3 +63,13 @@ def requestSemantic(conceptInconnu):
             answer.append(i["concept_name"])
     return answer
 
+# Requête information concept officiel NYT
+@api.get('/concept', name ="Requête concept officel NYT", tags=["Requête cas métier n°2"])
+def requestKnownConcept(knownconcept,conceptType):
+    if concepts.find_one({"concept_name" : knownconcept}) != None:
+        return concepts.find_one({"concept_name" : knownconcept})
+    else :
+        semantic.type_concept_to_clean_Json(knownconcept,conceptType)
+        with open(f"../data/clean_data/{knownconcept}.json", "r") as file:
+            file_json = json.load(file)
+        return file_json
