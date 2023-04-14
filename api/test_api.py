@@ -46,7 +46,7 @@ def requestArticleSearch(motCle : str, nomFichier : str, filtre : Optional[str]=
     ArticleSearch.request(motCle, nomFichier, filtre )
     return "Fichier bien récupéré"
 
-# Requête liste concept officiels lié à un mot clé
+# Requête qui renvoie une liste de concepts officiels lié à un mot clé
 @api.get('/semantic', name="Requête Semantic inconnu", tags=['Requête cas métier n°2'])
 def requestSemantic(conceptInconnu):
     answer = []
