@@ -8,6 +8,7 @@ import sys
 sys.path.insert(0,"..")
 from sourcing.request_article_search import ApiArticleSearch
 from sourcing.requete_semantic import ApiSemantic
+from db.bdd_write import Bdd
 import json
 
 
@@ -37,6 +38,7 @@ api = FastAPI(
 #Instanciation des objets nécessaires aux requêtes
 ArticleSearch = ApiArticleSearch()
 semantic = ApiSemantic("../data/raw_data/", "../data/clean_data/")
+bddSemantic = Bdd("../data/clean_data/")
 
 
 
@@ -50,17 +52,19 @@ def requestArticleSearch(motCle : str, nomFichier : str, filtre : Optional[str]=
 @api.get('/semantic', name="Requête Semantic inconnu", tags=['Requête cas métier n°2'])
 def requestSemantic(conceptInconnu):
     answer = []
-    if searchSemantic.find_one({"search_name" : conceptInconnu}) != None:
+    if concepts.find_one({"concept_name" : conceptInconnu}) != None:
+        return concepts.find_one({"concept_name" : conceptInconnu})
+    elif searchSemantic.find_one({"search_name" : conceptInconnu}) != None:
         for concept in searchSemantic.find({"search_name" : conceptInconnu}):
             answer.append(concept["concept_name"])
         answer.append("Obtenu via Atlas")
 
     else :
         semantic.search_to_clean_Json(conceptInconnu)
-        with open(f"../data/clean_data/{conceptInconnu}.json", "r") as file:
-            file_json = json.load(file)
+        file_json = bddSemantic.import_json(f"{conceptInconnu}.json")
         for i in file_json:
             answer.append(i["concept_name"])
+        bddSemantic.insert_mongoDB(f"{conceptInconnu}.json",searchSemantic)
     return answer
 
 # Requête information concept officiel NYT
