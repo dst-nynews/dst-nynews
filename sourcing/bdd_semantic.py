@@ -43,7 +43,6 @@ class BddSemantic:
                     to_stock["created_at"] = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
                     collection.replace_one({"_id": to_stock["_id"]}, to_stock, upsert = True)
 
-
 # test
 bddSemantic = BddSemantic("../data/clean_data/")
 db = bddSemantic.Client['NYTimes']
