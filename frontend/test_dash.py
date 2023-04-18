@@ -1,39 +1,73 @@
-from dash import Dash, html, dcc, callback, Output, Input, State
+from dash import Dash, html, dcc, callback, Output, Input, State, dash_table
 import plotly.express as px
 import pandas as pd
 import requests
 import json
 
 # Initialisation de l'app
-app = Dash(__name__)
+external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+app = Dash(__name__, external_stylesheets=external_stylesheets)
 
 # Layout de l'app
 app.layout = html.Div([
+    # Titre et présentation de la page
     html.H1(children='Projet New-York Times Bootcamp DE Février 2023', style={'textAlign':'center'}),
-    html.H2(children ='Les publications du New-York Times sont-elles corrélées avec le nombre réel de cas ?'),
-    dcc.Textarea(
-        id='textarea-state-example',
-        value='Quel mot-clé souhaitez-vous rechercher ?',
-        style={'width': '20%', 'height': 30},
-    ),
-    html.Button('Submit', id='textarea-state-example-button', n_clicks=0),
-    html.Div(id='textarea-state-example-output', style={'whiteSpace': 'pre-line'})
-])
+    html.H5(children ='Vous proposez un mot clé. On vous propose les concepts officiels du New-York Times affiliés et, si vous en choisissez un, on vous dit si le nombre d\'articles taggés avec ce concept publié dans le New-York Times est corrélés aux cas Covid !'),
+    
+    # Recherche via mot clé
+    html.Div([
+        html.H2(children="Quel mot-clé souhaitez-vous chercher ?"),
+        dcc.Textarea(
+            id='textarea-state-unknow',
+            value='Mot-clé',
+            style={'width': '20%', 'height': "30%"}),
+        html.Button('Submit', id='textarea-state-unknow-button', n_clicks=0),
+        html.Div(id='textarea-unknow-output', style={'whiteSpace': 'pre-line'})]),
+    
+    # Recherche concept    
+    html.Div([
+        html.H2(children="Sur quel concept souhaitez-vous des informations ?"),
+        dcc.Textarea(
+            id='textarea-state-concept',
+            value = 'Concept',
+            style= {'width' : '20%', 'height' : "30%"}),
+        dcc.Textarea(
+            id='textarea-state-type_concept',
+            value = 'Type du concept',
+            style= {'width' : '20%', 'height' : "30%"}),
+        html.Button('Submit', id="textarea-state-concept-button", n_clicks=0),
+        html.Div(id='textarea-concept-output', style={'whiteSpace': 'pre-line'}),
+        ]),
+        html.Div([
+        html.H2(children="L'utilisation de mot-clé dans le New-York Times est-elle corrélée au nombre de cas positifs au Coronavirus ? ")
+        ])
+    ])
 
 # Controles
+    # Recherche via mot clé
 @callback(
-    Output('textarea-state-example-output', 'children'),
-    Input('textarea-state-example-button', 'n_clicks'),
-    State('textarea-state-example', 'value')
+    Output('textarea-unknow-output', "children" ),
+    Input('textarea-state-unknow-button', 'n_clicks'),
+    State('textarea-state-unknow', 'value')
 )
-
-def semantic_request(n_clicks, value):
-    result = {}
+def semantic_request_unknow(n_clicks, value_unknow):
     if n_clicks > 0:
-        req = requests.get(f"http://127.0.0.1:8000/semantic?conceptInconnu={value}")
+        req = requests.get(f"http://127.0.0.1:8000/semantic?conceptInconnu={value_unknow}")
         wb = req.json()
-        return [ f'Concept : {i} \n' for i in wb]
+        return [f'Concept : {i[0]} -> Type du concept : {i[1]} \n' for i in wb]
 
+    # Recherche concept officel + type
+@callback(
+    Output('textarea-concept-output', "children" ),
+    Input('textarea-state-concept-button', 'n_clicks'),
+    State('textarea-state-type_concept', "type")
+)
+def semantic_concept(n_clicks_concept, value_concept, value_type):
+    if n_clicks_concept > 0:
+        req = requests.get(f"http://127.0.0.1:8000/concept?knownconcept={value_concept}&conceptType={value_type}")
+        wb = req.json()
+        return wb
+        
 
 
 # Exécute l'app

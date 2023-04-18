@@ -56,7 +56,7 @@ def requestSemantic(conceptInconnu):
         return concepts.find_one({"concept_name" : conceptInconnu})
     elif searchSemantic.find_one({"search_name" : conceptInconnu}) != None:
         for concept in searchSemantic.find({"search_name" : conceptInconnu}):
-            answer.append(concept["concept_name"])
+            answer.append((concept["concept_name"],concept["concept_type"]) )
         answer.append("Obtenu via Atlas")
 
     else :
