@@ -64,7 +64,7 @@ def get_concept(n_clicks,value):
         wb = req.json()
         articles = []
         for i in wb["article_list"]:
-            articles.append(f"Article {i['title']}, publié le {i['date']}. Url : {i['url']} \n")
+            articles.append(f"Article {i['title']}, publié le {i['date']}. Url : {i['url']}")
         
         Output = f"Le concept a été créé le {wb['concept_created']}. \n Il y a {wb['nb_articles']} articles dans le New-York Times qui lui sont affiliés.\n Il est considéré comme {wb['concept_status']} par le journal. \n\n {articles}"
         return Output
