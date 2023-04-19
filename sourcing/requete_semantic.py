@@ -274,8 +274,7 @@ semantic.type_concept_to_clean_Json(conceptOrg, typeOrg)
 #conceptInexistant = "Baskurt, Can"
 #semantic.type_concept_to_clean_Json(conceptInexistant, typeDes)
 
-
-# test requête search
+#test requête search
 searchString = "Coronavirus"
 semantic.search_to_clean_Json(searchString)
 """

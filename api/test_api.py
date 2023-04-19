@@ -39,6 +39,7 @@ api = FastAPI(
 ArticleSearch = ApiArticleSearch()
 semantic = ApiSemantic("../data/raw_data/", "../data/clean_data/")
 bddSemantic = Bdd("../data/clean_data/")
+bbdconcepts = Bdd("../data/clean_data/")
 
 
 
@@ -57,7 +58,6 @@ def requestSemantic(conceptInconnu):
     elif searchSemantic.find_one({"search_name" : conceptInconnu}) != None:
         for concept in searchSemantic.find({"search_name" : conceptInconnu}):
             answer.append((concept["concept_name"],concept["concept_type"]) )
-        answer.append("Obtenu via Atlas")
 
     else :
         semantic.search_to_clean_Json(conceptInconnu)
@@ -76,4 +76,5 @@ def requestKnownConcept(knownconcept,conceptType):
         semantic.type_concept_to_clean_Json(knownconcept,conceptType)
         with open(f"../data/clean_data/{knownconcept}.json", "r") as file:
             file_json = json.load(file)
+        bddSemantic.insert_mongoDB(f"{knownconcept}.json",concepts)
         return file_json

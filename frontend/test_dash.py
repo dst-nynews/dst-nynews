@@ -23,26 +23,19 @@ app.layout = html.Div([
             style={'width': '20%', 'height': "30%"}),
         html.Button('Submit', id='textarea-state-unknow-button', n_clicks=0),
         html.Div(id='textarea-unknow-output', style={'whiteSpace': 'pre-line'})]),
-    
-    # Recherche concept    
+
+    # Recherche concept  
     html.Div([
-        html.H2(children="Sur quel concept souhaitez-vous des informations ?"),
+        html.H2(children="Quel concept souhaitez-vous chercher ? format : concept:type"),
         dcc.Textarea(
             id='textarea-state-concept',
-            value = 'Concept',
-            style= {'width' : '20%', 'height' : "30%"}),
-        dcc.Textarea(
-            id='textarea-state-type_concept',
-            value = 'Type du concept',
-            style= {'width' : '20%', 'height' : "30%"}),
-        html.Button('Submit', id="textarea-state-concept-button", n_clicks=0),
-        html.Div(id='textarea-concept-output', style={'whiteSpace': 'pre-line'}),
-        ]),
-        html.Div([
-        html.H2(children="L'utilisation de mot-clé dans le New-York Times est-elle corrélée au nombre de cas positifs au Coronavirus ? ")
-        ])
-    ])
+            value='Mot-clé',
+            style={'width': '20%', 'height': "30%"}),
+        html.Button('Submit', id='textarea-state-concept-button', n_clicks=0),
+        html.Div(id='textarea-concept-output', style={'whiteSpace': 'pre-line'})])
+  
 
+])
 # Controles
     # Recherche via mot clé
 @callback(
@@ -54,22 +47,30 @@ def semantic_request_unknow(n_clicks, value_unknow):
     if n_clicks > 0:
         req = requests.get(f"http://127.0.0.1:8000/semantic?conceptInconnu={value_unknow}")
         wb = req.json()
-        return [f'Concept : {i[0]} -> Type du concept : {i[1]} \n' for i in wb]
+        return [f'Concept : {i[0]} \n Pour pouvoir le requêter, copiez et collez ceci juste en dessous :{i[0]}:{i[1]}\n' for i in wb]
 
     # Recherche concept officel + type
 @callback(
     Output('textarea-concept-output', "children" ),
     Input('textarea-state-concept-button', 'n_clicks'),
-    State('textarea-state-type_concept', "type")
+    State('textarea-state-concept', 'value')
 )
-def semantic_concept(n_clicks_concept, value_concept, value_type):
-    if n_clicks_concept > 0:
-        req = requests.get(f"http://127.0.0.1:8000/concept?knownconcept={value_concept}&conceptType={value_type}")
+def get_concept(n_clicks,value):
+    if n_clicks >0:
+        value_split = value.split(":")
+        concept = value_split[0]
+        type = value_split[1]
+        req = requests.get(f"http://127.0.0.1:8000/concept?knownconcept={concept}&conceptType={type}")
         wb = req.json()
-        return wb
+        articles = []
+        for i in wb["article_list"]:
+            articles.append(f"Article {i['title']}, publié le {i['date']}. Url : {i['url']} \n")
+        
+        Output = f"Le concept a été créé le {wb['concept_created']}. \n Il y a {wb['nb_articles']} articles dans le New-York Times qui lui sont affiliés.\n Il est considéré comme {wb['concept_status']} par le journal. \n\n {articles}"
+        return Output
         
 
-
+#[f"Article  {articles[0]}\n Publié le {articles[1]} \n Url : {articles[2]}"]
 # Exécute l'app
 if __name__ == '__main__':
     app.run_server(debug=True)
