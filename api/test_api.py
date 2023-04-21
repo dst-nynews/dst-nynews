@@ -11,7 +11,13 @@ from sourcing.requete_semantic import ApiSemantic
 from db.bdd_write import Bdd
 import json
 
+"""
+======================================
 
+    Connexion aux BDD SQL ET NOSQL
+
+======================================
+"""
 # Connexion à la BDD Atlas et à ses collections
 hostmongo = os.getenv("MONGO_CLIENT_HOST")
 client = MongoClient(host = hostmongo, port=27017)
@@ -20,6 +26,15 @@ articles = db["Articles"]
 concepts = db["Concepts"]
 searchMostPopular = db["SearchMostPopular"]
 searchSemantic = db["SearchSemantic"]
+
+
+"""
+=====================================================
+
+    Création de l'API / instanciation des objets
+
+=====================================================
+"""
 
 # Création de l'API
 api = FastAPI(
@@ -32,25 +47,64 @@ api = FastAPI(
     },
     {
         'name': 'Requête cas métier n°2',
+    },
+    {
+        'name': 'Requêtes généralistes'
     }
 ])
 
-#Instanciation des objets nécessaires aux requêtes
+# Instanciation des objets nécessaires aux requêtes
 ArticleSearch = ApiArticleSearch()
 semantic = ApiSemantic("../data/raw_data/", "../data/clean_data/")
 bddSemantic = Bdd("../data/clean_data/")
 bbdconcepts = Bdd("../data/clean_data/")
 
 
+"""
+==================================
+
+    Requête ArticleSearch
+
+==================================
+
+"""
 
 # Requêtes ArticleSearch
-@api.get('/articleSearchApi', name="Requête ArticleSearch", tags=['Requête cas métier n°1'])
-def requestArticleSearch(motCle : str, nomFichier : str, filtre : Optional[str]="" ):
-    ArticleSearch.request(motCle, nomFichier, filtre )
+@api.get('/articleSearchApi', name="Requête ArticleSearch JSON", tags=['Requête cas métier n°1'])
+def requestArticleSearch(keyWord : str, fileName : str, filter : Optional[str]="" ):
+    ArticleSearch.request(keyWord, fileName, filter)
     return "Fichier bien récupéré"
 
-# Requête qui renvoie une liste de concepts officiels lié à un mot clé
-@api.get('/semantic', name="Requête Semantic inconnu", tags=['Requête cas métier n°2'])
+
+"""
+==================================
+
+    Requête Semantic
+
+==================================
+
+"""
+# Retourne le fichier json de la requête semantic utilisée avec une chaine de caractères 
+@api.get('/semantic/unknow', name='Requête json semantic chaine de caractère', tags=['Requêtes généralistes'])
+def resquestSemanticUnknow():
+    pass
+
+
+# Requête qui renvoie le json d'une requête avec un concept officiel et son type
+@api.get('/concept', name ="Requête concept officel NYT", tags=["Requête cas métier n°2"])
+def requestKnownConcept(knownconcept,conceptType):
+    if concepts.find_one({"concept_name" : knownconcept}) != None:
+        return concepts.find_one({"concept_name" : knownconcept})
+    else :
+        semantic.type_concept_to_clean_Json(knownconcept,conceptType)
+        with open(f"../data/clean_data/{knownconcept}.json", "r") as file:
+            file_json = json.load(file)
+        bddSemantic.insert_mongoDB(f"{knownconcept}.json",concepts)
+        return file_json
+    
+    
+# Requête qui renvoie une liste de concepts et de leur type officiels lié à un mot clé
+@api.get('/semantic/unknow/list', name="Requête Semantic inconnu", tags=['Requête cas métier n°2'])
 def requestSemantic(conceptInconnu):
     answer = []
     if concepts.find_one({"concept_name" : conceptInconnu}) != None:
@@ -67,14 +121,21 @@ def requestSemantic(conceptInconnu):
         bddSemantic.insert_mongoDB(f"{conceptInconnu}.json",searchSemantic)
     return answer
 
-# Requête information concept officiel NYT
-@api.get('/concept', name ="Requête concept officel NYT", tags=["Requête cas métier n°2"])
-def requestKnownConcept(knownconcept,conceptType):
-    if concepts.find_one({"concept_name" : knownconcept}) != None:
-        return concepts.find_one({"concept_name" : knownconcept})
-    else :
-        semantic.type_concept_to_clean_Json(knownconcept,conceptType)
-        with open(f"../data/clean_data/{knownconcept}.json", "r") as file:
-            file_json = json.load(file)
-        bddSemantic.insert_mongoDB(f"{knownconcept}.json",concepts)
-        return file_json
+
+"""
+==================================
+
+    Requête Most Popular
+
+==================================
+
+"""
+
+"""
+==================================
+
+    Requête BDD SQL
+
+==================================
+
+"""
