@@ -1,0 +1,52 @@
+sudo apt install libpq-dev python3-dev
+pip install psycopg2
+pip install sqlalchemy
+sudo apt install postgresql-client-common
+sudo apt update
+sudo apt install postgresql postgresql-contrib
+sudo -i -u postgres
+
+psql
+create database covid;
+\l
+postgres=# \password postgres
+Enter new password: <new-password>
+
+
+Accès depuis Windows: DBeaver
+
+cd ../../etc/postgresql/12/main
+sudo nano postgresql.conf
+
+#------------------------------------------------------------------------------
+# CONNECTIONS AND AUTHENTICATION
+#------------------------------------------------------------------------------
+
+# - Connection Settings -
+
+listen_addresses = '0.0.0.0'		# what IP address(es) to listen on;
+					# comma-separated list of addresses;
+					# defaults to 'localhost'; use '*' for all
+					# (change requires restart)
+port = 5432				# (change requires restart)
+
+
+sudo systemctl restart postgresql.service
+
+
+sudo nano pg_hba.conf
+
+Please  add the following two lines at the end of the file:
+
+host    all             all              0.0.0.0/0                       md5
+host    all             all              ::/0                            md5
+
+
+sudo systemctl restart postgresql.service
+
+
+
+exécuter le scrip python de création des tables et remplissage
+Faire le dump sql à l'aide de DBeaver
+
+Modifier le fichier sql comme suit:
