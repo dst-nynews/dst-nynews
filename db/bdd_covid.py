@@ -46,8 +46,8 @@ def creation_dataframe_counts():
     df_counts = df_merged.rename(columns={"id_x": "id","id_y":"id_state"})
     df_counts = df_counts.iloc[:, [0,1,2,3,5,4]]
     df_counties = creation_dataframe_counties()
-    df_merged2 = pd.merge(df_counts, df_counties, left_on='county', right_on='name', how='left')
-    df_merged2 = df_merged2.drop(['county','name','fips','id_state_y'], axis =1)
+    df_merged2 = pd.merge(df_counts, df_counties, left_on=['county','id_state'], right_on=['name','id_state'], how='left')
+    df_merged2 = df_merged2.drop(['county','name','fips'], axis =1)
     df_counts = df_merged2.rename(columns={"id_x": "id","id_state_x":"id_state","id_y":"id_county"})
     return df_counts
 
@@ -117,8 +117,8 @@ def peuplement_tables():
     df_states.to_sql('states', con=engine, if_exists="append", index=False)
     df_counties = creation_dataframe_counties()
     df_counties.to_sql('counties', con=engine, if_exists="append", index=False)
-    df_counts = creation_dataframe_counts()
-    df_counts.to_sql('counts', con=engine, if_exists="append", index=False)
+    #df_counts = creation_dataframe_counts()
+    #df_counts.to_sql('counts', con=engine, if_exists="append", index=False)
     df_mask_use = creation_dataframe_mask_use()
     df_mask_use.to_sql('mask_use', con=engine, if_exists="append", index=False)
 

@@ -1,0 +1,57 @@
+id,name,fips
+0,Alabama,1
+1,Alaska,2
+2,American Samoa,60
+3,Arizona,4
+4,Arkansas,5
+5,California,6
+6,Colorado,8
+7,Connecticut,9
+8,Delaware,10
+9,District of Columbia,11
+10,Florida,12
+11,Georgia,13
+12,Guam,66
+13,Hawaii,15
+14,Idaho,16
+15,Illinois,17
+16,Indiana,18
+17,Iowa,19
+18,Kansas,20
+19,Kentucky,21
+20,Louisiana,22
+21,Maine,23
+22,Maryland,24
+23,Massachusetts,25
+24,Michigan,26
+25,Minnesota,27
+26,Mississippi,28
+27,Missouri,29
+28,Montana,30
+29,Nebraska,31
+30,Nevada,32
+31,New Hampshire,33
+32,New Jersey,34
+33,New Mexico,35
+34,New York,36
+35,North Carolina,37
+36,North Dakota,38
+37,Northern Mariana Islands,69
+38,Ohio,39
+39,Oklahoma,40
+40,Oregon,41
+41,Pennsylvania,42
+42,Puerto Rico,72
+43,Rhode Island,44
+44,South Carolina,45
+45,South Dakota,46
+46,Tennessee,47
+47,Texas,48
+48,Utah,49
+49,Vermont,50
+50,Virgin Islands,78
+51,Virginia,51
+52,Washington,53
+53,West Virginia,54
+54,Wisconsin,55
+55,Wyoming,56
