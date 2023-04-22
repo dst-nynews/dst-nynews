@@ -20,6 +20,7 @@ uvicorn[standard]~=0.21.1  # for DEV
 
 ## BDD
 pymongo~=4.3.3
+motor~=3.1.2
 psycopg2~=2.9.5
 sqlmodel~=0.0.8
 
