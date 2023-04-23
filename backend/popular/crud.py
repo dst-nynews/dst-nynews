@@ -1,20 +1,15 @@
+""" CRUD operations for this endpoint.
+
+Wrap in Python functions the CRUD operations interacting with the DB.
+"""
+
 from bson.objectid import ObjectId
 
+# Local imports
 from database import mongodb
 
-# # Verify if MongoDB client is instanciated and/or accessible
-# # (might not be pythonic)
-# try:
-#     mongodb
-# except NameError:
-#     from motor.motor_asyncio import AsyncIOMotorClient
-#     from config import settings
 
-#     mongodb_client = AsyncIOMotorClient(settings.MONGO_DETAILS)
-#     mongodb = mongodb_client.testasync
-
-
-# popular_collection = mongodb.get_collection("popular_collection")
+# Connection to the collection related to this endpoint
 popular_collection = mongodb.get_collection("Populars")
 
 
@@ -31,8 +26,6 @@ def popular_helper(popular) -> dict:
         "Articles": popular["Articles"],
     }
 
-
-# CRUD operations #
 
 # Retrieve all group of popular articles present in the database
 async def read_popular_index():

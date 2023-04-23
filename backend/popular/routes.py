@@ -1,20 +1,17 @@
+""" Routes associating each http request with a specific path for this endpoint.
+"""
+
 from fastapi import APIRouter, Body
 from fastapi.encoders import jsonable_encoder
 
-from .crud import (
-    create_popular,
-    delete_popular,
-    read_popular,
-    read_popular_index,
-    update_popular,
-)
-from .models import (
-    PopularModel,
-    UpdatePopularModel,
-    ResponseModel,
-    ErrorResponseModel,
-)
+# Local imports
+from .crud import (create_popular, delete_popular,
+                   read_popular, read_popular_index, update_popular)
+from .models import (PopularModel, UpdatePopularModel,
+                     ResponseModel, ErrorResponseModel)
 
+
+# Instanciate a router for this endpoint
 router = APIRouter()
 
 

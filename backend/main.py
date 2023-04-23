@@ -1,9 +1,13 @@
 from fastapi import FastAPI
+
+# Local imports
 from popular.routes import router as popular_router
 
+
+# Instanciate the API controller
 app = FastAPI()
 
-# Inject Popular endpoint
+# Inject the endpoint "popular" in the scope of the controller
 app.include_router(popular_router, tags=["Popular"], prefix="/popular")
 
 
@@ -14,7 +18,7 @@ async def read_root():
 
 
 if __name__ == "__main__":
-    # DEV mode
+    # DEV mode: start local server for testing
     import uvicorn
 
     uvicorn.run(

@@ -1,4 +1,6 @@
-# import uuid
+""" Models to define the data objects for this endpoint.
+"""
+
 from typing import List, Optional, Union
 
 from pydantic import BaseModel, Field, HttpUrl
@@ -26,12 +28,7 @@ class PopularArticleModel(BaseModel):
         }
 
 
-def concat_id(
-    pop_type: str,
-    pop_period: str,
-    pop_month: str,
-    pop_day: str,
-):
+def concat_id(pop_type: str, pop_period: str, pop_month: str, pop_day: str):
     return f"{pop_type}{pop_period}{pop_month}{pop_day}"
 
 
@@ -43,12 +40,8 @@ class PopularModel(BaseModel):
     created_at: str = Field(...)
     Articles: Union[List[PopularArticleModel], None] = None
     id: str = Field(
-        default_factory=concat_id(
-            most_popular_type,
-            search_period,
-            search_month,
-            search_day,
-        ),
+        default_factory=concat_id(most_popular_type, search_period,
+                                  search_month, search_day),
         alias="_id",
     )
 
