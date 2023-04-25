@@ -207,23 +207,26 @@ class ApiSemantic:
         -concept_type
         """
         
-        nombre_resultats = rawJSONSearch['num_results']
-        #print(nombre_resultats)
-        results = rawJSONSearch['results']
-        
-        clean_concepts = []
+        if rawJSONSearch['status'] == "OK":
 
-        for index, concept in zip(range(nombre_resultats), results):
-            c = {}
-            c["search_name"] = searchName
-            c['_id'] = concept['concept_id']
-            c['concept_name'] = concept['concept_name']
-            c['concept_created'] = concept['concept_created']
-            c['concept_type'] = concept['concept_type']
-            if(c['concept_type'] in ('nytd_des','nytd_org','nytd_per','nytd_geo')):
-                clean_concepts.append(c)
-                
-        return clean_concepts
+            nombre_resultats = rawJSONSearch['num_results']
+            #print(nombre_resultats)
+            results = rawJSONSearch['results']
+            
+            clean_concepts = []
+
+            for index, concept in zip(range(nombre_resultats), results):
+                c = {}
+                c["search_name"] = searchName
+                c['_id'] = concept['concept_id']
+                c['concept_name'] = concept['concept_name']
+                c['concept_created'] = concept['concept_created']
+                c['concept_type'] = concept['concept_type']
+                if(c['concept_type'] in ('nytd_des','nytd_org','nytd_per','nytd_geo')):
+                    clean_concepts.append(c)
+                    
+            return clean_concepts
+        return "Aucun concept ne contient la chaine de caractère recherchée"
 
 
     # étape 4
@@ -269,12 +272,15 @@ semantic.type_concept_to_clean_Json(conceptPer, typePer)
 conceptOrg = "Chicago White Sox"
 semantic.type_concept_to_clean_Json(conceptOrg, typeOrg)
 
-#time.sleep(10)
+time.sleep(10)
 
-#conceptInexistant = "Baskurt, Can"
-#semantic.type_concept_to_clean_Json(conceptInexistant, typeDes)
+conceptInexistant = "Baskurt, Can"
+semantic.type_concept_to_clean_Json(conceptInexistant, typeDes)
 
-
+time.sleep(10)
 # test requête search
 searchString = "Coronavirus"
 semantic.search_to_clean_Json(searchString)
+
+searchString2 = "moon"
+semantic.search_to_clean_Json(searchString2)
