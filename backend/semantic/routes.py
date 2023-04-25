@@ -1,5 +1,7 @@
+import sys
+sys.path.insert(0,".")
 from fastapi import APIRouter
-from backend.database import mongodb
+from database import mongodb
 from typing import Optional
 from sourcing.requete_semantic import ApiSemantic
 from db.bdd_write import Bdd
@@ -18,15 +20,16 @@ bbdconcepts = Bdd("../data/clean_data/")
 searchSemantic = mongodb["SearchSemantic"]
 concepts = mongodb["Concepts"]
 
-# Requêtes ArticleSearch
+
+
 # Retourne le fichier json de la requête semantic utilisée avec une chaine de caractères 
-@routeSe.get('/unknow', name='Requête json semantic chaine de caractère', tags=['Requêtes généralistes'])
+@routeSe.get('/unknow', name='Requête json semantic chaine de caractère', tags=['Semantic'])
 def resquestSemanticUnknow():
     pass
 
 
 # Requête qui renvoie le json d'une requête avec un concept officiel et son type
-@routeSe.get('/concept', name ="Requête concept officel NYT", tags=["Requête cas métier n°2"])
+@routeSe.get('/concept', name ="Requête concept officel NYT", tags=["Semantic"])
 def requestKnownConcept(knownconcept,conceptType):
     if concepts.find_one({"concept_name" : knownconcept}) != None:
         return concepts.find_one({"concept_name" : knownconcept})
@@ -39,8 +42,8 @@ def requestKnownConcept(knownconcept,conceptType):
     
     
 # Requête qui renvoie une liste de concepts et de leur type officiels lié à un mot clé
-@routeSe.get('/unknow/list', name="Requête Semantic inconnu", tags=['Requête cas métier n°2'])
-def requestSemantic(conceptInconnu):
+@routeSe.get('/unknow/list', name="Requête Semantic inconnu", tags=['Semantic'])
+async def requestSemantic(conceptInconnu):
     answer = []
     if concepts.find_one({"concept_name" : conceptInconnu}) != None:
         return concepts.find_one({"concept_name" : conceptInconnu})
