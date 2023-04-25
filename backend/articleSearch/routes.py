@@ -14,7 +14,7 @@ ArticleSearch = ApiArticleSearch()
 articles = mongodb["Articles"]
 
 # Requêtes ArticleSearch
-@routeAs.get('/articleSearchApi', name="Requête ArticleSearch JSON", tags=['Requête cas métier n°1'])
+@routeAs.get('/articleSearchApi', name="Requête ArticleSearch JSON", tags=['Article Search'])
 def requestArticleSearch(keyWord : str, fileName : str, filter : Optional[str]="" ):
     ArticleSearch.request(keyWord, fileName, filter)
     return "Fichier(s) bien récupéré(s)"
