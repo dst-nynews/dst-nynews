@@ -61,7 +61,9 @@ async def requestSemantic(conceptInconnu):
         semantic.search_to_clean_Json(conceptInconnu)
         file_json = bddSemantic.import_json(f"{conceptInconnu}.json")
         for i in file_json:
-            answer.append((i["concept_name"], i["concept_type"] ))
+            if type(i) != dict:
+                return "Aucun concept avec ce mot"
+            else:
+                answer.append((i["concept_name"], i["concept_type"] ))
         bddSemantic.insert_mongoDB(f"{conceptInconnu}.json",searchSemantic)
     return answer
-
