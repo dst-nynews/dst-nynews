@@ -247,7 +247,7 @@ class ApiSemantic:
         self.write_clean_search_to_JSON(cleanSearch1, searchString)
 
 
-
+"""
 # test requête type/concept
 semantic = ApiSemantic("../data/raw_data/semantic/", "../data/clean_data/semantic/")
 
@@ -284,3 +284,4 @@ semantic.search_to_clean_Json(searchString)
 
 searchString2 = "moon"
 semantic.search_to_clean_Json(searchString2)
+"""
