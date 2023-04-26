@@ -79,6 +79,8 @@ class ApiMostPopular:
 
         with open(filepath, "w") as file:
             json.dump(data, file)
+        
+        return data, filename
 
     
     def import_json(self,file_path):
@@ -114,11 +116,11 @@ class ApiMostPopular:
         -byline
         -section
         """
-        print(name)
+        #print(name)
         #name_split = name.split('_ |.')
         name_split = re.split(r"[_.]\s*",name)
 
-        print(name_split)
+        #print(name_split)
 
         clean_most_popular = {}
 
@@ -159,14 +161,12 @@ class ApiMostPopular:
 
         _today = date.today()
         filename = f"clean_most_popular_{endpoint}_{period}d_{_today.month}_{_today.day}.json"
-        if self.repo_path:
-            filepath = self.repo_path + filename
-        else:
-            filepath = f"../data/clean_data/most_popular/{filename}"
+        filepath = f"../data/clean_data/most_popular/{filename}"
 
         with open(filepath, "w") as file:
             json.dump(data, file)
-
+        
+        return data, filename
 
 
 if __name__ == "__main__":
@@ -185,13 +185,36 @@ if __name__ == "__main__":
     query = api_most_popular.get_data(endpoint, period)
 
     if query:
-        api_most_popular.save_data(query, endpoint, period)
+        raw_data_most_popular = api_most_popular.save_data(query, endpoint, period)
         print("\nArticles récupérés.\n")
+        to_treat = raw_data_most_popular[0]
+        name = raw_data_most_popular[1] 
 
-    file = "../data/raw_data/most_popular/most_popular_emailed_7d_4_7.json"
-    to_treat = api_most_popular.import_json(file)
-    name = api_most_popular.file_name(file)
+    #file = "../data/raw_data/most_popular/most_popular_emailed_1d_4_25.json"
+    #to_treat = api_most_popular.import_json(file)
+    #name = api_most_popular.file_name(file)
     print(name)
     to_stock = api_most_popular.clean_data(to_treat, name)
     print(to_stock)
     api_most_popular.save_clean_data(to_stock, endpoint, period)
+
+
+# Peupler les json clean à la main à partir de json raw: jouer sur le nom du file dans la ligne 2 de ce commentaire + ajouter return name_split à la fonction clean_data
+"""
+api_most_popular = ApiMostPopular()
+file = "../data/raw_data/most_popular/most_popular_viewed_1d_4_25.json"
+to_treat = api_most_popular.import_json(file)
+name = api_most_popular.file_name(file)
+print(name)
+to_stock = api_most_popular.clean_data(to_treat, name)
+#print(to_stock)
+#api_most_popular.save_clean_data(to_stock, "emailed", 1)
+name = to_stock[1]
+print(name)
+
+filename = f"clean_most_popular_{name[2]}_{name[3]}_{name[4]}_{name[5]}.json"
+filepath = f"../data/clean_data/most_popular/{filename}"
+
+with open(filepath, "w") as file:
+            json.dump(to_stock[0], file)
+"""

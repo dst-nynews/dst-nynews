@@ -47,7 +47,7 @@ class Bdd:
 
 
 # test
-
+"""
 bddSemantic = Bdd("../data/clean_data/semantic/")
 db = bddSemantic.Client['NYTimes']
 print(db.list_collection_names())
@@ -74,3 +74,12 @@ db = bddMostPopular.Client['NYTimes']
 print(db.list_collection_names())
 searchMostPopular = db["SearchMostPopular"]
 bddMostPopular.insert_mongoDB("clean_most_popular_emailed_7d_4_7.json", searchMostPopular)
+
+"""
+"""
+# Peupler la BDD collection SearchMostPopular à la main, jouer sur le fichier json clean à ajouter en BD
+bddMostPopular = Bdd("../data/clean_data/most_popular/")
+db = bddMostPopular.Client['NYTimes']
+searchMostPopular = db["SearchMostPopular"]
+bddMostPopular.insert_mongoDB("clean_most_popular_viewed_1d_4_25.json", searchMostPopular)
+"""
