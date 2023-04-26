@@ -74,6 +74,7 @@ db = bddMostPopular.Client['NYTimes']
 print(db.list_collection_names())
 searchMostPopular = db["SearchMostPopular"]
 bddMostPopular.insert_mongoDB("clean_most_popular_emailed_7d_4_7.json", searchMostPopular)
+<<<<<<< HEAD
 
 """
 """
@@ -82,4 +83,6 @@ bddMostPopular = Bdd("../data/clean_data/most_popular/")
 db = bddMostPopular.Client['NYTimes']
 searchMostPopular = db["SearchMostPopular"]
 bddMostPopular.insert_mongoDB("clean_most_popular_viewed_1d_4_25.json", searchMostPopular)
+=======
+>>>>>>> 35619cb4fb8208f09e508102d1db444568a295bb
 """
