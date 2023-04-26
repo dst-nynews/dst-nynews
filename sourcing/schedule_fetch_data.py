@@ -31,7 +31,7 @@ def job():
         searchMostPopular = db["SearchMostPopular"]
         bddMostPopular.insert_mongoDB(most_popular_clean, searchMostPopular)
 
-"""
+
 # Run job every day at 8:00 until the 25/05/2023
 schedule.every().day.at("08:00").until(datetime(2023, 5, 25)).do(job)
 
@@ -43,3 +43,4 @@ while True:
 print("execution du job")
 job()
 print("fin du job")
+"""
