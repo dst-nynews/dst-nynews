@@ -156,7 +156,7 @@ node_modules/
 # Project folders #
 # notebooks/
 playground/
-data/clean_data 
+#data/clean_data 
 # data/raw_data/
 data/raw_data/archive/
 data/raw_data/times_wire/
