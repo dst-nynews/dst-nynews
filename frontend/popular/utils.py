@@ -12,7 +12,7 @@ import streamlit as st
 
 
 class APINames:
-    API_BASE = "http://localhost:8002"
+    API_BASE = "http://localhost:8000"
     API_ROOT = API_BASE + "/"
     API_POPULAR = API_BASE + "/popular"
 
