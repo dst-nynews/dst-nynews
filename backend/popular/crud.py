@@ -3,18 +3,14 @@
 Wrap in Python functions the CRUD operations interacting with the DB.
 """
 
-from bson.objectid import ObjectId
-
 # Local imports
 from database import mongodb
-
 
 # Connection to the collection related to this endpoint
 popular_collection = mongodb.get_collection("Populars")
 
 
-# HELPER functions #
-# for parsing the results from a database query into a Python dict.
+# Helper function for parsing the results from a database query into a Python dict.
 def popular_helper(popular) -> dict:
     return {
         "id": str(popular["_id"]),
@@ -27,7 +23,7 @@ def popular_helper(popular) -> dict:
     }
 
 
-# Retrieve all group of popular articles present in the database
+# Retrieve all group of popular articles present in the database.
 async def read_popular_index():
     populars = []
     async for popular in popular_collection.find():
@@ -35,38 +31,38 @@ async def read_popular_index():
     return populars
 
 
-# Retrieve a group of popular articles with a matching ID
+# Retrieve a group of popular articles with a matching ID.
 async def read_popular(id: str) -> dict:
-    popular = await popular_collection.find_one({"_id": ObjectId(id)})
+    popular = await popular_collection.find_one({"_id": id})
     if popular:
         return popular_helper(popular)
 
 
-# Add a new group of popular articles  into to the database
+# Add a new group of popular articles  into to the database.
 async def create_popular(popular_data: dict) -> dict:
     popular = await popular_collection.insert_one(popular_data)
     created_popular = await popular_collection.find_one({"_id": popular.inserted_id})
     return popular_helper(created_popular)
 
 
-# Update a group of popular articles with a matching ID
+# Update a group of popular articles with a matching ID.
 async def update_popular(id: str, data: dict):
     # Return false if an empty request body is sent.
     if len(data) < 1:
         return False
-    popular = await popular_collection.find_one({"_id": ObjectId(id)})
+    popular = await popular_collection.find_one({"_id": id})
     if popular:
         updated_popular = await popular_collection.update_one(
-            {"_id": ObjectId(id)}, {"$set": data}
+            {"_id": id}, {"$set": data}
         )
         if updated_popular:
             return True
         return False
 
 
-# Delete a group of popular articles from the database
+# Delete a group of popular articles from the database.
 async def delete_popular(id: str):
-    popular = await popular_collection.find_one({"_id": ObjectId(id)})
+    popular = await popular_collection.find_one({"_id": id})
     if popular:
-        await popular_collection.delete_one({"_id": ObjectId(id)})
+        await popular_collection.delete_one({"_id": id})
         return True
