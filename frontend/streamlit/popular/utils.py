@@ -1,10 +1,6 @@
-""" Helper functions connecting frontend (Streamlit) to backend (FastAPI)
-
-    The functions and the logic come from the repo `DQMonstersDB-streamlit`.
-    It's a copy of its `helper_functions.py`.
-    ref: https://github.com/cmsato09/DQMonstersDB-streamlit
+""" Helper functions connecting frontend (Streamlit) and backend (FastAPI).
 """
-import json
+
 from typing import Dict
 
 import requests
@@ -29,21 +25,9 @@ def make_clickable_article_title(title: str, url: str) -> str:
 
 @st.cache_data
 def _get_json_data(endpoint) -> Dict:
-    """
-    Gets relevant JSON data from given FastAPI endpoint
+    """ Gets relevant JSON data from given FastAPI endpoint.
     """
     response = requests.get(endpoint)
-    response.raise_for_status()
-    return response.json()
-
-
-@st.cache_data
-def _post_json_data(endpoint, params) -> Dict:
-    """
-    Post relevant JSON data to given FastAPI endpoint
-    """
-    data = json.dumps(params)
-    response = requests.post(endpoint, data=data)
     response.raise_for_status()
     return response.json()
 
