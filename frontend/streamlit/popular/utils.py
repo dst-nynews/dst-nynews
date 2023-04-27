@@ -1,5 +1,4 @@
-""" Helper functions connecting frontend (Streamlit) and backend (FastAPI).
-"""
+"""Helper functions connecting frontend (Streamlit) and backend (FastAPI)."""
 
 from typing import Dict
 
@@ -14,19 +13,18 @@ class APINames:
 
 
 def make_clickable_article_title(title: str, url: str) -> str:
-    """
-    HTML hyperlink to article page
+    """HTML hyperlink to article page.
+
     :param id: article id as string
     :param title: title of article as string
-    :return: html <a> with href attribute to make hyperlink
+    :return: string with url attachment to make hyperlink in markdown
     """
     return f"[{title}]({url})"
 
 
 @st.cache_data
 def _get_json_data(endpoint) -> Dict:
-    """ Gets relevant JSON data from given FastAPI endpoint.
-    """
+    """Gets relevant JSON data from given FastAPI endpoint."""
     response = requests.get(endpoint)
     response.raise_for_status()
     return response.json()
