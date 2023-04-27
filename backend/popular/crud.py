@@ -37,7 +37,7 @@ async def read_popular_index():
 
 # Retrieve a group of popular articles with a matching ID
 async def read_popular(id: str) -> dict:
-    popular = await popular_collection.find_one({"_id": ObjectId(id)})
+    popular = await popular_collection.find_one({"_id": id})
     if popular:
         return popular_helper(popular)
 
@@ -54,10 +54,10 @@ async def update_popular(id: str, data: dict):
     # Return false if an empty request body is sent.
     if len(data) < 1:
         return False
-    popular = await popular_collection.find_one({"_id": ObjectId(id)})
+    popular = await popular_collection.find_one({"_id": id})
     if popular:
         updated_popular = await popular_collection.update_one(
-            {"_id": ObjectId(id)}, {"$set": data}
+            {"_id": id}, {"$set": data}
         )
         if updated_popular:
             return True
@@ -66,7 +66,7 @@ async def update_popular(id: str, data: dict):
 
 # Delete a group of popular articles from the database
 async def delete_popular(id: str):
-    popular = await popular_collection.find_one({"_id": ObjectId(id)})
+    popular = await popular_collection.find_one({"_id": id})
     if popular:
-        await popular_collection.delete_one({"_id": ObjectId(id)})
+        await popular_collection.delete_one({"_id": id})
         return True
