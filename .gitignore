@@ -160,3 +160,5 @@ playground/
 # data/raw_data/
 data/raw_data/archive/
 data/raw_data/times_wire/
+
+.flake8

@@ -28,6 +28,7 @@ class PopularArticleModel(BaseModel):
         }
 
 
+# Build ids for an instance of PopularModel (it's a composite from its attributes).
 def concat_id(pop_type: str, pop_period: str, pop_month: str, pop_day: str):
     return f"{pop_type}{pop_period}{pop_month}{pop_day}"
 
@@ -40,8 +41,12 @@ class PopularModel(BaseModel):
     created_at: str = Field(...)
     Articles: Union[List[PopularArticleModel], None] = None
     id: str = Field(
-        default_factory=concat_id(most_popular_type, search_period,
-                                  search_month, search_day),
+        default_factory=concat_id(
+            most_popular_type,
+            search_period,
+            search_month,
+            search_day
+        ),
         alias="_id",
     )
 
