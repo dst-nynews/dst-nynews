@@ -1,6 +1,5 @@
 # DATA
 ## transformation
-jupyterlab~=3.5.3  # for DEV
 pandas~=1.5.3
 
 ## dataviz
@@ -20,12 +19,6 @@ uvicorn[standard]~=0.21.1  # for DEV
 
 ## frontend
 streamlit~=1.21.0
-
-## BDD
-pymongo~=4.3.3
-motor~=3.1.2
-psycopg2~=2.9.5
-sqlmodel~=0.0.8
 
 # DEVOPS
 ## env

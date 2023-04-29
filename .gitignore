@@ -135,15 +135,15 @@ node_modules/
 .DS_Store
 
 # IDEs #
-# PyCharm
 .idea/
-# VS Code
 .vscode/
 
 # Images #
 # *.png
 # *.jpg
 # *.jpeg
+# *.svg
+# *.excalidraw
 
 # Storage files #
 # *.zip

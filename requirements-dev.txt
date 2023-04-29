@@ -21,6 +21,5 @@ pytest==7.2.1
 pytest-cov==4.0.0
 coverage==7.1.0
 
-## workspace
-colorama==0.4.6
-python-dotenv==1.0.0
+## EDA
+jupyterlab~=3.5.3 
