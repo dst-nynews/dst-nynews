@@ -2,31 +2,53 @@
 
 > Repo d'un use case du projet centré sur l'API Times Wire du NY Times
 
+## Objectifs
+
+### 1. Data Analytics
+
+- Construire un pipeline ETL 
+  - capable de traiter par batch des données 
+  - extraites de l'API Times Wire
+    - vers une solution de stockage des données bruts
+  - transfomées pour être utilisable dans notre cas d'usage
+  - renvoyées vers une base de données
+    - répondant aux besoins analytiques et/ou applicatifs du cas d'usage
+
+### 2. Web Dev
+
+- Construire une application démontrant l'utilisabilité des données affinées
+  - avec un back-end pour manipuler ces données
+  - et un front-end pour afficher le résultat et/ou interagir avec les données 
+
+### 3. DataOps
+
+- Améliorer itérativement le workflow du projet
+  - avec une solution d'orchestration du pipeline ETL (-> Airflow)
+  - en transférant le projet dans une solution cloud (-> GCP)
+  - en renforçant l'architecture micro-services en containersiant chaque composant du projet (-> Docker/Kubernetes)
+  - en adoptant une architecture IaC pour déployer le projet (-> Terraform)
+
+## Architecture
+
+Exemples d'architecture visé (si on atteint l'étape d'implantation dans GCP):
+
+  ![Batch ETL Pipeline](assets/diagrams/batch_etl_pipeline-2023_04_29.png)
+
+  ![Data Analaytics Pipeline](assets/diagrams/data_analytics_pipeline-2023_04_29.png)
+
 ## Structure du projet
 
-Ce repo rassemblent tous les éléments du projet et chaque composant a un dossier dédié à la racine du repo.
+Les éléments principaux de ce repo sont organisés par logique fonctionnelle:
 
-### les composants du projet 
-
-Chacun des composants de l'architecture (`api`, `db`, ...) du projet a un dossier distinct qui est géré comme si c'était un repo en soi. C'est là qu'on développe les features du projet.
-
-Quand on travaille dans ces dossiers:
-
-  - on ne commit pas sur la branche `main` 
-    - on crée une branche pour développer une feature
-  - on ne fait pas d'auto-merge:
-    - on fait une pull request pour valider les modifications avec les collègues
-    - on passe par la branche `staging` avant d'incorporer les modificationss dans la branche `main`. 
-
-### les dossiers de développement
-
-Certains dossiers ne sont pas des composants du projets et servent à ranger des fichiers qui nous aide pour le développement du projet.
-
-- `assets`: pour les fichiers statiques qui nous servent à documenter le projet (images, pdf, ...)
-- `data`: si on veut stocker des petits jeux de données bruts (csv, json, ...) pour tester les features qu'on développe
-- `notebooks`: pour les Jupyter Notebooks
-
-On n'est pas obligé de passer par une branche ou de faire valider nos modifications quand on travaille sur ces dossiers de développement et sur la documentation du projet.
+  - Data Pipeline:
+    - `extract`
+    - `transform`
+    - `load`
+  - Web App:
+    - `backend`
+    - `frontend`
+  - DataOps:
+    - `orchestration`
 
 ## Pour démarrer le projet
 
@@ -36,5 +58,3 @@ On n'est pas obligé de passer par une branche ou de faire valider nos modificat
   ```shell
   pip install -r requirements-dev.txt 
   ```
-
-
