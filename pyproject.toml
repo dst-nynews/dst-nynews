@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "dst-newsfeed"
+name = "DST-NewsFeed"
 version = "0.1.0"
 description = "Showcase of a batch ETL pipeline on the API Times Wire of the NY Times."
 authors = ["Mickael GASPAR <migatsar@gmail.com>"]
