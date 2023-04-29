@@ -1,6 +1,6 @@
-# DataScientest NY News
+# DataScientest NY News - Feed
 
-> Repo principal du projet
+> Repo d'un use case du projet centré sur l'API Times Wire du NY Times
 
 ## Structure du projet
 
