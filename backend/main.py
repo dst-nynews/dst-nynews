@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 
 # Local imports
-
 from popular.routes import router as popular_router
 from semantic.routes import routeSe as semantic_router
 from covid.routes import routeSe as covid_router
@@ -9,9 +8,9 @@ from covid.routes import routeSe as covid_router
 
 # Instanciate the API controller
 app = FastAPI(
-    title = "New-York Times  ",
-    description = "API du projet New-York Times du Bootcamp DE de février 2023",
-    version = "1.0.1",
+    title="NyNews",
+    description="API du projet New-York Times du Bootcamp DE de février 2023",
+    version="1.0.1",
     openapi_tags=[
     {
         'name': 'Popular'
@@ -29,7 +28,6 @@ app = FastAPI(
 
 # Inject the endpoint "popular" in the scope of the controller
 app.include_router(popular_router, tags=["Popular"], prefix="/popular")
-
 # Inject the endpont "semantic"
 app.include_router(semantic_router, tags=["Semantic"], prefix="/semantic")
 
@@ -43,7 +41,7 @@ async def read_root():
 
 
 if __name__ == "__main__":
-    # DEV mode: start local server for testing
+    # DEV MODE: start local server for testing
     import uvicorn
 
     uvicorn.run(
