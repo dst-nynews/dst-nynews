@@ -5,11 +5,12 @@ from fastapi import APIRouter, Body
 from fastapi.encoders import jsonable_encoder
 
 # Local imports
-from .crud import (create_popular, delete_popular,
-                   read_popular, read_popular_index, update_popular)
+from .crud import (read_popular_index, read_popular,
+                   create_popular, delete_popular, update_popular,
+                   )
 from .models import (PopularModel, UpdatePopularModel,
-                     ResponseModel, ErrorResponseModel)
-
+                     ResponseModel, ErrorResponseModel,
+                     )
 
 # Instanciate a router for this endpoint
 router = APIRouter()
