@@ -4,7 +4,7 @@ Wrap in Python functions the CRUD operations interacting with the DB.
 """
 
 # Local imports
-from database import mongodb
+from .database import mongodb
 
 # Connection to the collection related to this endpoint
 popular_collection = mongodb.get_collection("SearchMostPopular")

@@ -1,5 +1,4 @@
-""" Models to define the data objects for this endpoint.
-"""
+""" Models to define the data objects for this endpoint."""
 
 from typing import List, Optional, Union
 

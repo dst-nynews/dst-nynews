@@ -1,5 +1,4 @@
-""" Instanciate the connection to the DB.
-"""
+""" Instanciate the connection to the DB."""
 
 import os
 
