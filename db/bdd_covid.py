@@ -5,6 +5,7 @@ from sqlalchemy import Table, Column, Integer, String, insert, delete, ForeignKe
 import time
 from sqlalchemy.sql import text
 from typing import Optional
+import json
 
 class Bdd_Covid:
     def __init__(self, path_csv_files: Optional[str] = None) -> None:
@@ -171,8 +172,14 @@ class Bdd_Covid:
 
 
 # tests
-bdd_covid = Bdd_Covid()
+#bdd_covid = Bdd_Covid()
 #bdd_covid.creation_tables()
 #bdd_covid.peuplement_tables()
-print(bdd_covid.request_1('2020-08-01','2020-08-10'))
+#print(bdd_covid.request_1('2020-08-01','2020-08-10'))
+#results = bdd_covid.request_1('2020-08-01','2020-08-10')
+#print(results)
 
+#for e in results:
+#   print(e)
+
+#print(json.dumps([dict(r) for r in results]))

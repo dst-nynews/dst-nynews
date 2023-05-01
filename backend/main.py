@@ -4,6 +4,7 @@ from fastapi import FastAPI
 
 from popular.routes import router as popular_router
 from semantic.routes import routeSe as semantic_router
+from covid.routes import routeSe as covid_router
 
 
 # Instanciate the API controller
@@ -20,6 +21,9 @@ app = FastAPI(
     },
     {
         'name': 'Semantic'
+    },
+    {
+        'name': 'Covid'
     }
 ])
 
@@ -29,6 +33,8 @@ app.include_router(popular_router, tags=["Popular"], prefix="/popular")
 # Inject the endpont "semantic"
 app.include_router(semantic_router, tags=["Semantic"], prefix="/semantic")
 
+# Inject the endpont "covid"
+app.include_router(covid_router, tags=["Covid"], prefix="/covid")
 
 # Root endpoint
 @app.get("/", tags=["Root"])
