@@ -1,0 +1,39 @@
+#Sur une période de temps définie : sortir le nombre de cas covid et de deaths par states
+SELECT 
+s1."States", (s1."Total cases end date" - s2."Total cases start date") as "Total cases", (s1."Total deaths end date" - s2."Total deaths start date") as "Total deaths" 
+FROM
+(select s.name as "States", sum(c.cases) as "Total cases end date" , sum(c.deaths) as "Total deaths end date" from counts c  
+inner join states s on s.id = c.id_state 
+where date = '2020-08-20'
+group by s.name order by s.name) s1 
+INNER JOIN
+(select s.name as "States", sum(c.cases) as "Total cases start date" , sum(c.deaths) as "Total deaths start date" from counts c  
+inner join states s on s.id = c.id_state 
+where date = '2020-08-13'
+group by s.name order by s.name) s2
+ON s1."States" = s2."States";
+
+
+#Sur une période de temps définie : sortir le nombre de cases total du covid
+select (select sum(cases) from counts where date = '2020-08-10')
+- 
+(select sum(cases) from counts where date = '2020-08-03') as "Total cases";
+
+
+#Sur une période de temps définie : sortir le nombre de deaths total du covid
+select (select sum(deaths) from counts where date = '2020-08-10')
+- 
+(select sum(deaths) from counts where date = '2020-08-03') as "Total deaths";
+
+
+#Pour un état donnée: sortir la moyenne de la répartition de mask_use. En supposant que chaque county de un état a la même popul.
+select  s."name"  as "State" , cast(round(cast(avg(mu.never) as numeric), 2) as varchar) as "Never", cast(round(cast(avg(mu.rarely) as numeric), 2) as varchar) as "Rarely", 
+cast(round(cast(avg(mu.sometimes) as numeric), 2) as varchar) as "Sometimes", cast(round(cast(avg(mu.frequently) as numeric), 2) as varchar) as "Frequently", 
+cast(round(cast(avg(mu."always") as numeric), 2) as varchar) as "Always"
+from mask_use mu 
+inner join counties c  
+on mu.id_county = c.id
+inner join states s 
+on c.id_state = s.id 
+where s."name"  = 'Alabama'
+group by "State";
