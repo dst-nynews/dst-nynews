@@ -44,7 +44,7 @@ def request1(n_clicks,value):
         value_split = value.split(":")
         date_debut = value_split[0]
         date_fin = value_split[1]
-        req = requests.get(f"http://localhost:8000/covid/request1?date_debut={date_debut}&date_fin={date_fin}")
+        req = requests.get(f"http://localhost:8000/covid/cases_deaths_by_date_by_state?date_debut={date_debut}&date_fin={date_fin}")
         states = req.json()
         #dictStates = json.loads(states)
         #for row in dictStates:

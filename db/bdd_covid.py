@@ -161,25 +161,54 @@ class Bdd_Covid:
 #    county, afficher les stats de mask use pour voir l'incidence.
 # Bonus: ML: Faire une prédiction des cases et deaths par state/county en fonction du mask use
 
-    def request_1(self, date_debut, date_fin):
+    def cases_deaths_by_date_by_state(self, date_debut, date_fin):
+        with self.engine.connect() as con:
+            sql_request = "SELECT s1.\"States\", (s1.\"Total cases end date\" - s2.\"Total cases start date\") as \"Total cases\", (s1.\"Total deaths end date\" - s2.\"Total deaths start date\") as \"Total deaths\" FROM (select s.name as \"States\", sum(c.cases) as \"Total cases end date\" , sum(c.deaths) as \"Total deaths end date\" from counts c  inner join states s on s.id = c.id_state  where date = '"+ date_fin +"' group by s.name order by s.name) s1 INNER JOIN (select s.name as \"States\", sum(c.cases) as \"Total cases start date\" , sum(c.deaths) as \"Total deaths start date\" from counts c  inner join states s on s.id = c.id_state where date = '"+ date_debut +"' group by s.name order by s.name) s2 ON s1.\"States\" = s2.\"States\";"
+            request = text(sql_request)
+
+            results = con.execute(request)
+        
+        return results
+    
+    def total_cases_by_date(self, date_debut, date_fin):
+        with self.engine.connect() as con:
+            sql_request = "select (select sum(cases) from counts where date = '"+ date_fin +"') - (select sum(cases) from counts where date = '"+ date_debut +"') as \"Total cases\";"
+            request = text(sql_request)
+
+            results = con.execute(request)
+            
+        return results
+    
+    def total_deaths_by_date(self, date_debut, date_fin):
             with self.engine.connect() as con:
-                sql_request = "select s.name as \"state\" , sum(c.cases) as \"Total cases \" , sum(c.deaths) as \"Total deaths\" from counts c inner join states s on s.id = c.id_state where date >= '"+ date_debut +"' and date <= '"+ date_fin + "' group by s.name order by s.name ;"
+                sql_request = "select (select sum(deaths) from counts where date = '"+ date_fin +"') - (select sum(deaths) from counts where date = '"+ date_debut +"') as \"Total deaths\";"
                 request = text(sql_request)
 
                 results = con.execute(request)
-            
+                
             return results
+    
+    def avg_mask_use_by_state(self, state):
+            with self.engine.connect() as con:
+                sql_request = "select  s.\"name\"  as \"State\" , cast(round(cast(avg(mu.never) as numeric), 2) as varchar) as \"Never\", cast(round(cast(avg(mu.rarely) as numeric), 2) as varchar) as \"Rarely\", cast(round(cast(avg(mu.sometimes) as numeric), 2) as varchar) as \"Sometimes\", cast(round(cast(avg(mu.frequently) as numeric), 2) as varchar) as \"Frequently\", cast(round(cast(avg(mu.always) as numeric), 2) as varchar) as \"Always\" from mask_use mu  inner join counties c on mu.id_county = c.id inner join states s on c.id_state = s.id where s.\"name\"  = '"+ state +"' group by \"State\";"
+                request = text(sql_request)
+
+                results = con.execute(request)
+                
+            return results
+
 
 
 # tests
 #bdd_covid = Bdd_Covid()
 #bdd_covid.creation_tables()
 #bdd_covid.peuplement_tables()
-#print(bdd_covid.request_1('2020-08-01','2020-08-10'))
-#results = bdd_covid.request_1('2020-08-01','2020-08-10')
-#print(results)
 
 #for e in results:
 #   print(e)
 
+#print(json.dumps([dict(r) for r in results]))
+
+#results = bdd_covid.avg_mask_use_by_state('Alaska')
+#print(results)
 #print(json.dumps([dict(r) for r in results]))
