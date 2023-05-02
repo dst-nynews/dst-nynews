@@ -1,3 +1,6 @@
+import os
+import sys
+sys.path.insert(0,".")
 from fastapi import APIRouter
 from database import mongodb
 from sourcing.request_article_search import ApiArticleSearch
