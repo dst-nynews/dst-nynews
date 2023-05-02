@@ -1,0 +1,39 @@
+version: "3.9"
+
+services:
+ 
+  db:
+    image: bdd:latest
+    container_name: bdd
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    
+  api:
+    image: api:latest
+    container_name: api
+    restart: always
+    depends_on:
+      - db
+    ports:
+    - 8000:8000
+    environment:
+      - KEY_API_NYT=${KEY_API_NYT}
+      - MONGO_CLIENT_HOST=${MONGO_CLIENT_HOST}
+    volumes:
+    - ./data/clean_data:/app/data/clean_data
+
+  front:
+    image: front:latest
+    container_name: front
+    restart: always
+    depends_on:
+      - api
+    ports:
+    - 8050:8050
+
+volumes:
+  pgdata:
