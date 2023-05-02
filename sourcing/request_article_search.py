@@ -148,17 +148,3 @@ class ApiArticleSearch:
             print("done")
 
 
-
-
-
-# TEST
-daterange = pd.date_range(start="2019,31,12", end="2023,07,02", freq="m")
-
-test = ApiArticleSearch()
-for i in daterange:
-    date= i.strftime("%Y-%m-%d")
-    concept = "covid"
-    fichier_name = f"Covid{date}"
-    filtre = f"pub_date:({date})"
-    test.request(concept,fichier_name,filtre)
-    time.sleep(5)
