@@ -10,6 +10,7 @@ class APINames:
     API_BASE = "http://localhost:8000"  # Local hosting
     API_ROOT = API_BASE + "/"
     API_POPULAR = API_BASE + "/popular"
+    API_COVID = API_BASE + "/covid"
 
 
 def make_clickable_article_title(title: str, url: str) -> str:
@@ -38,3 +39,12 @@ def get_popular_list() -> Dict:
 @st.cache_data
 def get_popular(popular_id) -> Dict:
     return _get_json_data(f"{APINames.API_POPULAR}/{popular_id}")
+
+
+"""Helper functions connecting frontend (Streamlit) and backend (FastAPI) / covid."""
+
+
+
+@st.cache_data
+def get_request(request_id) -> Dict:
+    return _get_json_data(f"{APINames.API_COVID}/{request_id}")
