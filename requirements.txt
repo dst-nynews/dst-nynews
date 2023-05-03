@@ -20,6 +20,7 @@ uvicorn[standard]~=0.21.1
 
 ## frontend
 streamlit~=1.21.0
+utils
 
 ## BDD
 pymongo~=4.3.3
