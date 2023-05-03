@@ -41,11 +41,14 @@ async def requestKnownConcept(knownconcept,conceptType):
         return concepts.find_one({"concept_name" : knownconcept})
     else :
         semantic.type_concept_to_clean_Json(knownconcept,conceptType)
-        with open(f"data/clean_data/{knownconcept}.json", "r") as file:
-            file_json = json.load(file)
-        bddSemantic.insert_mongoDB(f"{knownconcept}.json",concepts)
-        return file_json
-    
+        try:
+            with open(f"data/clean_data/{knownconcept}.json", "r") as file:
+                file_json = json.load(file)
+            bddSemantic.insert_mongoDB(f"{knownconcept}.json",concepts)
+            return file_json
+        except: 
+            return "Oups, il y a eu un problème !"
+        
     
 # Requête qui renvoie une liste de concepts et de leur type officiels lié à un mot clé
 @routeSe.get('/unknow/list', name="Requête Semantic inconnu", tags=['Semantic'])
