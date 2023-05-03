@@ -1,0 +1,25 @@
+FROM ubuntu:latest
+
+WORKDIR /app
+
+ADD ../../backend ./backend
+ADD ../../requirements.txt .
+ADD ../../sourcing ./sourcing
+ADD ../../db/bdd_covid.py ./db/bdd_covid.py
+ADD ../../db/bdd_write.py ./db/bdd_write.py
+ADD ../../initialisation.txt ./data/clean_data/most_popular
+ADD ../../initialisation.txt ./data/clean_data/semantic
+ADD ../../initialisation.txt ./data/raw_data/most_popular
+ADD ../../initialisation.txt ./data/raw_data/semantic
+ADD ../../initialisation.txt ./data/raw_data/article_search
+
+
+
+
+
+
+
+RUN apt-get update && apt-get install python3-pip -y && apt-get -y install libpq-dev gcc  && pip install -r requirements.txt 
+
+
+CMD python3 backend/main.py

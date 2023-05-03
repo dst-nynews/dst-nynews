@@ -4,9 +4,8 @@ import matplotlib.pyplot as plt
 import json
 
 # Local imports
-import sys
-sys.path.insert(0,".")
-from frontend.utils import get_request
+
+from utils import get_request
 
 # Page metadata
 st.set_page_config(

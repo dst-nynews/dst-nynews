@@ -3,9 +3,8 @@ import datetime as dt
 import streamlit as st
 
 # Local imports
-import sys
-sys.path.insert(0,".")
-from frontend.utils import get_popular, make_clickable_article_title
+
+from utils import get_popular, make_clickable_article_title
 
 
 # Page metadata

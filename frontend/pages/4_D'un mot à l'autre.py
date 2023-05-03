@@ -28,12 +28,12 @@ submit_button = form.form_submit_button(label='Consultez')
 
 # 1st Output display
 if submit_button:
-        req = requests.get(f"http://localhost:8000/semantic/unknow/list?conceptInconnu={value_unknow}")
+        req = requests.get(f"http://api:8000/semantic/unknow/list?conceptInconnu={value_unknow}")
         wb = req.json()
-        df = pd.DataFrame(wb, columns=['Concept', "Type du concept"])
-        if wb == []:
+        if wb == [] or wb=="Aucun concept avec ce mot":
              st.write(f"Aucun concept lié à {value_unknow} n'a été trouvé dans le NYT ")
         else:
+            df = pd.DataFrame(wb, columns=['Concept', "Type du concept"])
             st.write(df)
 
 
@@ -52,7 +52,7 @@ with st.form(key='concept_and_type'):
 
 # 2nd Output
 if submit_button_2:
-        req = requests.get(f"http://localhost:8000/semantic/concept?knownconcept={concept}&conceptType={type}")
+        req = requests.get(f"http://api:8000/semantic/concept?knownconcept={concept}&conceptType={type}")
         try:
             wb = req.json()
             articles = []

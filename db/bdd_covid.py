@@ -12,7 +12,7 @@ class Bdd_Covid:
         """Instanciate a connection to a PostGres sql databasefetch data from an API of the NY Times.
         """
         self.path_csv_files = path_csv_files
-        self.engine = create_engine('postgresql://postgres:postgres@localhost:5432/covid')
+        self.engine = create_engine('postgresql://postgres:postgres@bdd:5432/covid')
 
 
 # Créations des dataframes pour chaque table à partir des csv
