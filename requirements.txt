@@ -1,14 +1,7 @@
 # DATA
 ## transformation
-jupyterlab~=3.5.3
 pandas~=1.5.3
 
-## dataviz
-matplotlib~=3.7.0
-seaborn~=0.12.2
-
-## ML
-scikit-learn~=1.2.1
 
 # WEB
 ## API
@@ -20,12 +13,15 @@ uvicorn[standard]~=0.21.1
 
 ## frontend
 streamlit~=1.21.0
+dash~=2.9.2
+plotly==5.14.1
 
 ## BDD
 pymongo~=4.3.3
 motor~=3.1.2
-psycopg2~=2.9.5
 sqlmodel~=0.0.8
+psycopg2==2.8.6
+
 
 # DEVOPS
 ## env
