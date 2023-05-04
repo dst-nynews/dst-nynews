@@ -9,8 +9,8 @@ from typing import Dict, Optional
 from .database import mongodb
 
 # Connection to the collection related to this endpoint
-popular_collection = mongodb.get_collection("SearchMostPopular")
-# popular_collection = mongodb.get_collection("Populars")  # for tests
+# popular_collection = mongodb.get_collection("SearchMostPopular")
+popular_collection = mongodb.get_collection("Populars")  # for tests
 
 
 # Helper function for parsing the results from a database query into a Python dict.

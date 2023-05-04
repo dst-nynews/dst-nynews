@@ -2,7 +2,7 @@
 
 from fastapi import APIRouter, Body
 
-# from fastapi.encoders import jsonable_encoder
+from fastapi.encoders import jsonable_encoder
 
 # Local imports
 from .crud import (
@@ -10,20 +10,22 @@ from .crud import (
     read_popular_index,
     update_popular,
     delete_popular,
-    # create_popular,
+    create_popular,
 )
 from .models import (
     ResponseModel,
     ErrorResponseModel,
     UpdatePopularModel,
-    # PopularModel,
+    PopularModel,
 )
 
 # Instanciate a router for this endpoint
 router = APIRouter()
 
 
-@router.get("/", response_description="Index of popular articles retrieved")
+@router.get("/", response_description="Index of popular articles retrieved", 
+            # response_model=PopularModel,
+            )
 async def list_populars():
     populars = await read_popular_index()
     if populars:
@@ -37,7 +39,9 @@ async def list_populars():
     )
 
 
-@router.get("/{id}", response_description="Popular articles retrieved")
+@router.get("/{id}", response_description="Popular articles retrieved", 
+            # response_model=PopularModel,
+            )
 async def show_popular(id):
     popular = await read_popular(id)
     if popular:
@@ -49,6 +53,18 @@ async def show_popular(id):
         "An error occurred.",
         404,
         "Group of popular articles doesn't exist.",
+    )
+
+
+# FIXME: POST request is broken but it's not required in this endpoint.
+@router.post("/", response_description="Popular articles added", 
+            #  response_model=PopularModel,
+             )
+async def add_popular(popular: PopularModel = Body(...)):
+    popular = jsonable_encoder(popular)
+    created_popular = await create_popular(popular)
+    return ResponseModel(
+        created_popular, "Group of popular articles added successfully.",
     )
 
 
@@ -81,13 +97,3 @@ async def remove_popular(id: str):
         404,
         "Group of popular articles with id {0} doesn't exist".format(id),
     )
-
-
-# FIXME: POST request is broken but it's not required in this endpoint.
-# @router.post("/", response_description="Popular articles added")
-# async def add_popular(popular: PopularModel = Body(...)):
-#     popular = jsonable_encoder(popular)
-#     created_popular = await create_popular(popular)
-#     return ResponseModel(
-#         created_popular, "Group of popular articles added successfully.",
-#     )
