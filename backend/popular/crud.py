@@ -3,6 +3,8 @@
 Wrap in Python functions the CRUD operations interacting with the DB.
 """
 
+from typing import Dict, Optional
+
 # Local imports
 from .database import mongodb
 
@@ -12,7 +14,7 @@ popular_collection = mongodb.get_collection("SearchMostPopular")
 
 
 # Helper function for parsing the results from a database query into a Python dict.
-def popular_helper(popular) -> dict:
+def popular_helper(popular) -> Dict:
     return {
         "id": str(popular["_id"]),
         "most_popular_type": popular["most_popular_type"],
@@ -33,21 +35,23 @@ async def read_popular_index():
 
 
 # Retrieve a group of popular articles with a matching ID.
-async def read_popular(id: str) -> dict:
+async def read_popular(id: str) -> Optional[Dict]:
     popular = await popular_collection.find_one({"_id": id})
     if popular:
         return popular_helper(popular)
+    else:
+        return None
 
 
 # Add a new group of popular articles  into to the database.
-async def create_popular(popular_data: dict) -> dict:
+async def create_popular(popular_data: Dict) -> Dict:
     popular = await popular_collection.insert_one(popular_data)
     created_popular = await popular_collection.find_one({"_id": popular.inserted_id})
     return popular_helper(created_popular)
 
 
 # Update a group of popular articles with a matching ID.
-async def update_popular(id: str, data: dict):
+async def update_popular(id: str, data: Dict):
     # Return false if an empty request body is sent.
     if len(data) < 1:
         return False
