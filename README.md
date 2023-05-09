@@ -34,7 +34,10 @@ On n'est pas obligé de passer par une branche ou de faire valider nos modificat
 - installez les librairies Python requises en lançant cette commande dans votre terminal:
 
   ```shell
+  sudo apt-get install libpq-dev python-dev-is-python3
   pip install -r requirements-dev.txt 
   ```
+ - Créer un fichier .env à la racine projet avec la clé API NY Times, le mdp de la BD mongo Atlas
+ - Exécuter les instructions de configuration pour la bd postgre en local, ou bien passer par le docker-compose up
 
 
